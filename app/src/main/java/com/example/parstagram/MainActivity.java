@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.action_home:
                         Toast.makeText(MainActivity.this, "Home!", Toast.LENGTH_SHORT).show();
-                        //TODO: update fragment
                         fragment = new PostsFragment();
                         break;
                     case R.id.action_profile:
@@ -69,8 +68,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new ComposeFragment();
                         break;
                     default:
-                        //TODO: update fragment
-                        fragment = new ComposeFragment();
+                        fragment = new PostsFragment();
                         break;
                 }
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
