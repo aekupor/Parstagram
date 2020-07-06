@@ -37,7 +37,7 @@ import com.parse.SaveCallback;
 import java.io.File;
 import java.util.List;
 
-import static androidx.core.provider.FontsContractCompat.FontRequestCallback.RESULT_OK;
+import static android.app.Activity.RESULT_OK;
 
 public class ComposeFragment extends Fragment {
 
