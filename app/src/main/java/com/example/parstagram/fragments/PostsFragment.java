@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -13,11 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.parstagram.Post;
+import com.example.parstagram.PostsAdapter;
 import com.example.parstagram.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PostsFragment extends Fragment {
@@ -25,6 +28,8 @@ public class PostsFragment extends Fragment {
     public static final String TAG = "PostsFragment";
 
     private RecyclerView rvPosts;
+    private PostsAdapter adapter;
+    private List<Post> allPosts;
 
     public PostsFragment() {
         // Required empty public constructor
@@ -41,6 +46,12 @@ public class PostsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rvPosts = view.findViewById(R.id.rvPosts);
+
+        allPosts = new ArrayList<>();
+        adapter = new PostsAdapter(getContext(), allPosts);
+
+        rvPosts.setAdapter(adapter);
+        rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
 
         queryPosts();
     }
@@ -59,6 +70,8 @@ public class PostsFragment extends Fragment {
                 for (Post post : posts) {
                     Log.i(TAG, "Post: " + post.getDescription() + ", username: " + post.getUser().getUsername());
                 }
+                allPosts.addAll(posts);
+                adapter.notifyDataSetChanged();
             }
         });
     }
