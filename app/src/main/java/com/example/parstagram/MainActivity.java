@@ -14,6 +14,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.List;
 
@@ -53,7 +54,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void savePost(String description, ParseUser currentUser) {
-
+        Post post = new Post();
+        post.setDescription(description);
+        //post.setImage();
+        post.setUser(currentUser);
+        post.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Error while saving", e);
+                    Toast.makeText(MainActivity.this, "Error while saving!", Toast.LENGTH_SHORT).show();
+                }
+                Log.i(TAG, "Post save was successful!");
+                etDescription.setText("");
+            }
+        });
     }
 
     public void queryPosts() {
