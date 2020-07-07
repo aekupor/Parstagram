@@ -98,14 +98,14 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             int position = getAdapterPosition();
             // make sure the position is valid, i.e. actually exists in the view
             if (position != RecyclerView.NO_POSITION) {
-                // get the tweet at the position
+                // get the post at the position
                 Post post = posts.get(position);
 
                 Log.i(TAG, "post clicked: " + post.getUser().getUsername());
 
                 // go to Detail Fragment
                 final FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
-                Fragment fragment = new DetailFragment();
+                Fragment fragment = DetailFragment.newInstance(post.getObjectId());
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
             }
         }

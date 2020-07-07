@@ -26,8 +26,25 @@ public class DetailFragment extends Fragment {
     private ImageView ivImage;
     private TextView tvDescription;
 
+    private String postId;
+
+    public static DetailFragment newInstance(String postId) {
+        DetailFragment detailFragment = new DetailFragment();
+        Bundle args = new Bundle();
+        args.putString("postId", postId);
+        detailFragment.setArguments(args);
+        return detailFragment;
+    }
+
     public DetailFragment() {
         //required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        postId = getArguments().getString("postId", "");
+        Log.i(TAG, "post id: " + postId);
     }
 
     @Override
