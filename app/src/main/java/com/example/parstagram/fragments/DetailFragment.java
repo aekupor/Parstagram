@@ -90,6 +90,7 @@ public class DetailFragment extends Fragment {
 
                 tvUsername.setText(post.getUser().getUsername());
                 tvDescription.setText(post.getDescription());
+                tvCreatedAt.setText(post.getCreatedAt().toString());
 
                 ParseFile image = post.getImage();
                 if (image != null) {
