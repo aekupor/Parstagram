@@ -39,6 +39,7 @@ public class ProfileFragment extends Fragment {
 
     private TextView tvUsername;
     private ImageView ivProfileImage;
+    private Button btnChangeProfileImage;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -58,6 +59,14 @@ public class ProfileFragment extends Fragment {
         rvPosts = view.findViewById(R.id.rvProfilePosts);
         tvUsername = view.findViewById(R.id.tvProfileUsername);
         ivProfileImage = view.findViewById(R.id.ivProfileImage);
+        btnChangeProfileImage = view.findViewById(R.id.btnChangeProfile);
+
+        btnChangeProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(TAG, "change profile image button clicked");
+            }
+        });
 
         Glide.with(getContext())
                 .load(R.drawable.ic_baseline_person_outline_24)

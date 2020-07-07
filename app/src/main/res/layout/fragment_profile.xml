@@ -14,6 +14,12 @@
         android:layout_height="100dp"
         tools:srcCompat="@tools:sample/avatars" />
 
+    <Button
+        android:id="@+id/btnChangeProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Profile Image" />
+
     <TextView
         android:id="@+id/tvProfileUsername"
         android:layout_width="wrap_content"
