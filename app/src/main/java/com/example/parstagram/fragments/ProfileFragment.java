@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bumptech.glide.Glide;
 import com.example.parstagram.EndlessRecyclerViewScrollListener;
 import com.example.parstagram.Post;
 import com.example.parstagram.PostsAdapter;
@@ -33,7 +36,9 @@ public class ProfileFragment extends Fragment {
     private RecyclerView rvPosts;
     private PostsAdapter adapter;
     private List<Post> allPosts;
+
     private TextView tvUsername;
+    private ImageView ivProfileImage;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -52,6 +57,11 @@ public class ProfileFragment extends Fragment {
 
         rvPosts = view.findViewById(R.id.rvProfilePosts);
         tvUsername = view.findViewById(R.id.tvProfileUsername);
+        ivProfileImage = view.findViewById(R.id.ivProfileImage);
+
+        Glide.with(getContext())
+                .load(R.drawable.ic_baseline_person_outline_24)
+                .into(ivProfileImage);
 
         allPosts = new ArrayList<>();
         adapter = new PostsAdapter(getContext(), allPosts);
