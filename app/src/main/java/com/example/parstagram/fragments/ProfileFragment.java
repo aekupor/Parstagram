@@ -85,9 +85,15 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        Glide.with(getContext())
-                .load(R.drawable.ic_baseline_person_outline_24)
-                .into(ivProfileImage);
+        if (ParseUser.getCurrentUser().getParseFile("profileImage") != null) {
+            Glide.with(getContext())
+                    .load(ParseUser.getCurrentUser().getParseFile("profileImage").getUrl())
+                    .into(ivProfileImage);
+        } else {
+            Glide.with(getContext())
+                    .load(R.drawable.ic_baseline_person_outline_24)
+                    .into(ivProfileImage);
+        }
 
         allPosts = new ArrayList<>();
         adapter = new PostsAdapter(getContext(), allPosts);
