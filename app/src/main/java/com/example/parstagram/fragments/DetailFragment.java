@@ -32,6 +32,7 @@ public class DetailFragment extends Fragment {
     private TextView tvCreatedAt;
     private ImageView ivImage;
     private TextView tvDescription;
+    private TextView tvLikes;
 
     private String postId;
     private Post post;
@@ -68,6 +69,7 @@ public class DetailFragment extends Fragment {
         tvCreatedAt = view.findViewById(R.id.tvCreatedAtDetail);
         ivImage = view.findViewById(R.id.ivImageDetail);
         tvDescription = view.findViewById(R.id.tvDescriptionDetail);
+        tvLikes = view.findViewById(R.id.tvLikes);
 
         queryPost();
     }
@@ -91,6 +93,7 @@ public class DetailFragment extends Fragment {
                 tvUsername.setText(post.getUser().getUsername());
                 tvDescription.setText(post.getDescription());
                 tvCreatedAt.setText(post.getCreatedAt().toString());
+                tvLikes.setText("" + post.getLikes());
 
                 ParseFile image = post.getImage();
                 if (image != null) {
