@@ -51,7 +51,7 @@ public class ComposeFragment extends Fragment {
     private Button btnSubmit;
     private File photoFile;
     public String photoFileName = "photo.jpg";
-    private ProgressBar pb;
+    privateg ProgressBar pb;
 
     public ComposeFragment() {
         //required empty public constructor
