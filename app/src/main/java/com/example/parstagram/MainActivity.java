@@ -64,6 +64,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_compose:
                         fragment = new ComposeFragment();
                         break;
+                    case R.id.action_logout:
+                        ParseUser.logOut();
+                        Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(i);
                     default:
                         fragment = new PostsFragment();
                         break;
