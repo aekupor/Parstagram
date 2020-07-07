@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,11 +31,9 @@ public class ProfileFragment extends Fragment {
     public static final String TAG = "ProfileFragment";
 
     private RecyclerView rvPosts;
-    protected PostsAdapter adapter;
-    protected List<Post> allPosts;
-    private SwipeRefreshLayout swipeContainer;
-
-    private EndlessRecyclerViewScrollListener scrollListener;
+    private PostsAdapter adapter;
+    private List<Post> allPosts;
+    private TextView tvUsername;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -44,33 +43,15 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_posts, container, false);
+        return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
-
-        // Setup refresh listener which triggers new data loading
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Log.i(TAG, "refreshing");
-                adapter.clear();
-                queryPosts(0);
-                swipeContainer.setRefreshing(false);
-            }
-        });
-
-        // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-
-        rvPosts = view.findViewById(R.id.rvPosts);
+        rvPosts = view.findViewById(R.id.rvProfilePosts);
+        tvUsername = view.findViewById(R.id.tvProfileUsername);
 
         allPosts = new ArrayList<>();
         adapter = new PostsAdapter(getContext(), allPosts);
@@ -79,22 +60,12 @@ public class ProfileFragment extends Fragment {
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         rvPosts.setLayoutManager(gridLayoutManager);
 
-        scrollListener = new EndlessRecyclerViewScrollListener(gridLayoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Log.i(TAG, "onLoadMore: " + page);
+        tvUsername.setText(ParseUser.getCurrentUser().getUsername());
 
-                // Triggered only when new data needs to be appended to the list
-                queryPosts(page);
-            }
-        };
-        // Adds the scroll listener to RecyclerView
-        rvPosts.addOnScrollListener(scrollListener);
-
-        queryPosts(0);
+        queryPosts();
     }
 
-    protected void queryPosts(Integer page) {
+    protected void queryPosts() {
         // Specify which class to query
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
