@@ -12,10 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.parstagram.Post;
 import com.example.parstagram.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
 
 import org.parceler.Parcels;
@@ -68,7 +70,6 @@ public class DetailFragment extends Fragment {
         tvDescription = view.findViewById(R.id.tvDescriptionDetail);
 
         queryPost();
-
     }
 
     private void queryPost() {
@@ -86,6 +87,16 @@ public class DetailFragment extends Fragment {
                 }
                 post = posts.get(0);
                 Log.i(TAG, "Post: " + post.getDescription() + ", username: " + post.getUser().getUsername());
+
+                tvUsername.setText(post.getUser().getUsername());
+                tvDescription.setText(post.getDescription());
+
+                ParseFile image = post.getImage();
+                if (image != null) {
+                    Glide.with(getContext())
+                            .load(post.getImage().getUrl())
+                            .into(ivImage);
+                }
             }
         });
     }
