@@ -1,6 +1,7 @@
 package com.example.parstagram;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.parstagram.fragments.PostsFragment;
 import com.parse.ParseFile;
 
 import java.util.List;
@@ -76,6 +78,23 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                 Glide.with(context)
                         .load(post.getImage().getUrl())
                         .into(ivImage);
+            }
+        }
+
+        public void onClick(View v) {
+            // gets item position
+            int position = getAdapterPosition();
+            // make sure the position is valid, i.e. actually exists in the view
+            if (position != RecyclerView.NO_POSITION) {
+                // get the tweet at the position
+                Post post = posts.get(position);
+
+                // create intent for the new activity
+                Intent intent = new Intent(context, PostsFragment.class);
+                // serialize the post using parceler
+                //intent.putExtra("POST", Parcels.wrap(post));
+                // show the activity
+                context.startActivity(intent);
             }
         }
     }
