@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,14 +22,13 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
-import com.example.parstagram.EndlessRecyclerViewScrollListener;
 import com.example.parstagram.Post;
 import com.example.parstagram.PostsAdapter;
 import com.example.parstagram.R;
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
@@ -84,9 +82,6 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 Log.i(TAG, "change profile image button clicked");
                 launchCamera();
-
-
-
             }
         });
 
@@ -152,6 +147,9 @@ public class ProfileFragment extends Fragment {
             if (resultCode == RESULT_OK) {
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 ivProfileImage.setImageBitmap(takenImage);
+                ParseFile file = new ParseFile(photoFile);
+                ParseUser.getCurrentUser().put("profileImage", file);
+                ParseUser.getCurrentUser().saveInBackground();
             } else { // Result was a failure
                 Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
@@ -171,17 +169,4 @@ public class ProfileFragment extends Fragment {
         return new File(mediaStorageDir.getPath() + File.separator + fileName);
     }
 
-    private void saveProfileImage(ParseUser currentUser, File photoFile) {
-        currentUser.setProfileImage(new ParseFile(photoFile));
-        currentUser.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Error while saving", e);
-                    Toast.makeText(getContext(), "Error while saving!", Toast.LENGTH_SHORT).show();
-                }
-                Log.i(TAG, "Profile image save was successful!");
-            }
-        });
-    }
 }
