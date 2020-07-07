@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide;
 import com.example.parstagram.fragments.PostsFragment;
 import com.parse.ParseFile;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
@@ -92,7 +94,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                 // create intent for the new activity
                 Intent intent = new Intent(context, PostsFragment.class);
                 // serialize the post using parceler
-                //intent.putExtra("POST", Parcels.wrap(post));
+                intent.putExtra("POST", Parcels.wrap(post));
                 // show the activity
                 context.startActivity(intent);
             }
