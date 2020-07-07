@@ -14,8 +14,13 @@ import androidx.fragment.app.Fragment;
 
 import com.example.parstagram.Post;
 import com.example.parstagram.R;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 
 import org.parceler.Parcels;
+
+import java.util.List;
 
 public class DetailFragment extends Fragment {
 
@@ -27,6 +32,7 @@ public class DetailFragment extends Fragment {
     private TextView tvDescription;
 
     private String postId;
+    private Post post;
 
     public static DetailFragment newInstance(String postId) {
         DetailFragment detailFragment = new DetailFragment();
@@ -61,6 +67,26 @@ public class DetailFragment extends Fragment {
         ivImage = view.findViewById(R.id.ivImageDetail);
         tvDescription = view.findViewById(R.id.tvDescriptionDetail);
 
+        queryPost();
 
+    }
+
+    private void queryPost() {
+        // Specify which class to query
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include(Post.KEY_USER);
+        query.setLimit(1);
+        query.whereEqualTo("objectId", postId);
+        query.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> posts, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue with getting posts", e);
+                    return;
+                }
+                post = posts.get(0);
+                Log.i(TAG, "Post: " + post.getDescription() + ", username: " + post.getUser().getUsername());
+            }
+        });
     }
 }
