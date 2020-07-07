@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -24,7 +25,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfileFragment extends PostsFragment {
+public class ProfileFragment extends Fragment {
 
     public static final String TAG = "ProfileFragment";
 
@@ -93,7 +94,6 @@ public class ProfileFragment extends PostsFragment {
         queryPosts(0);
     }
 
-    @Override
     protected void queryPosts(Integer page) {
         // Specify which class to query
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
