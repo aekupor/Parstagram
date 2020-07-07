@@ -7,7 +7,7 @@ import com.parse.ParseUser;
 
 import org.parceler.Parcel;
 
-@Parcel
+@Parcel(analyze = Post.class)
 @ParseClassName("Post")
 public class Post extends ParseObject {
 
