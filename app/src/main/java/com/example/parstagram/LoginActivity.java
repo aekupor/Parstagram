@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -69,6 +70,29 @@ public class LoginActivity extends AppCompatActivity {
                     //TODO: better error handling to tell user what is wrong
                     Log.e(TAG, "Issue with login", e);
                     Toast.makeText(LoginActivity.this, "Issue with login!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                //navigate to the main activity if the user has signed in properly
+                Toast.makeText(LoginActivity.this, "Success!", Toast.LENGTH_SHORT).show();
+                goMainActivity();
+            }
+        });
+    }
+
+    private void registerUser(String username, String password) {
+        Log.i(TAG, "attempting to register user " + username);
+
+        // Create the ParseUser
+        ParseUser user = new ParseUser();
+        // Set core properties
+        user.setUsername(username);
+        user.setPassword(password);
+        // Invoke signUpInBackground
+        user.signUpInBackground(new SignUpCallback() {
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue with registration", e);
+                    Toast.makeText(LoginActivity.this, "Issue with registering!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 //navigate to the main activity if the user has signed in properly
