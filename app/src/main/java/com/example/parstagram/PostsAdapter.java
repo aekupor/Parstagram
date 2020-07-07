@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.example.parstagram.fragments.DetailFragment;
 import com.example.parstagram.fragments.PostsFragment;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
@@ -72,12 +73,14 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         private TextView tvUsername;
         private ImageView ivImage;
         private TextView tvDescription;
+        private ImageView ivProfileImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvUsername = itemView.findViewById(R.id.tvUsername);
             ivImage = itemView.findViewById(R.id.ivImage);
             tvDescription = itemView.findViewById(R.id.tvDescription);
+            ivProfileImage = itemView.findViewById(R.id.ivProfileImagePost);
 
             itemView.setOnClickListener(this);
         }
@@ -86,10 +89,20 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvDescription.setText(post.getDescription());
             tvUsername.setText(post.getUser().getUsername());
             ParseFile image = post.getImage();
-            if(image != null) {
+            if (image != null) {
                 Glide.with(context)
                         .load(post.getImage().getUrl())
                         .into(ivImage);
+            }
+
+            if (post.getUser().getParseFile("profileImage") != null) {
+                Glide.with(context)
+                        .load(post.getUser().getParseFile("profileImage").getUrl())
+                        .into(ivProfileImage);
+            } else {
+                Glide.with(context)
+                        .load(R.drawable.ic_baseline_person_outline_24)
+                        .into(ivProfileImage);
             }
         }
 
