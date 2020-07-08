@@ -134,7 +134,21 @@ public class DetailFragment extends Fragment implements ComposeCommentFragment.C
             }
         });
 
+        tvUsername.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToProfile();
+            }
+        });
+
         queryPost();
+    }
+
+    private void goToProfile() {
+        // go to Profile Fragment
+        final FragmentManager fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+        Fragment fragment = OtherUserProfileFragment.newInstance(post.getUser().getObjectId());
+        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
     }
 
     private void queryPost() {
