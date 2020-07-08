@@ -1,5 +1,6 @@
 package com.example.parstagram.fragments;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,6 +50,7 @@ public class DetailFragment extends Fragment implements ComposeCommentFragment.C
     private TextView tvLikes;
     private Button btnLike;
     private Button btnComment;
+    private ImageView ivProfileImage;
 
     private RecyclerView rvComments;
     private CommentAdapter adapter;
@@ -93,6 +95,7 @@ public class DetailFragment extends Fragment implements ComposeCommentFragment.C
         btnLike = view.findViewById(R.id.btnLike);
         btnComment = view.findViewById(R.id.btnComment);
         rvComments = view.findViewById(R.id.rvComments);
+        ivProfileImage = view.findViewById(R.id.ivProfileImageDetail);
 
         allComments = new ArrayList<>();
         adapter = new CommentAdapter(getContext(), allComments);
@@ -141,6 +144,13 @@ public class DetailFragment extends Fragment implements ComposeCommentFragment.C
             }
         });
 
+        ivProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToProfile();
+            }
+        });
+
         queryPost();
     }
 
@@ -181,6 +191,16 @@ public class DetailFragment extends Fragment implements ComposeCommentFragment.C
                     Glide.with(getContext())
                             .load(post.getImage().getUrl())
                             .into(ivImage);
+                }
+
+                if (post.getUser().getParseFile("profileImage") != null) {
+                    Glide.with(getContext())
+                            .load(post.getUser().getParseFile("profileImage").getUrl())
+                            .into(ivProfileImage);
+                } else {
+                    Glide.with(getContext())
+                            .load(R.drawable.ic_baseline_person_outline_24)
+                            .into(ivProfileImage);
                 }
 
                 queryComments();
