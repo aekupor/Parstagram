@@ -55,20 +55,14 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 Fragment fragment;
                 switch (menuItem.getItemId()) {
-                    case R.id.action_home:
-                        fragment = new PostsFragment();
-                        break;
                     case R.id.action_profile:
                         fragment = new ProfileFragment();
                         break;
                     case R.id.action_compose:
                         fragment = new ComposeFragment();
                         break;
-                    case R.id.action_logout:
-                        ParseUser.logOut();
-                        Intent i = new Intent(MainActivity.this, LoginActivity.class);
-                        startActivity(i);
                     default:
+                        //if is home button
                         fragment = new PostsFragment();
                         break;
                 }

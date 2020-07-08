@@ -24,6 +24,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.bumptech.glide.Glide;
+import com.example.parstagram.LoginActivity;
+import com.example.parstagram.MainActivity;
 import com.example.parstagram.Post;
 import com.example.parstagram.PostsAdapter;
 import com.example.parstagram.R;
@@ -53,6 +55,7 @@ public class ProfileFragment extends Fragment {
     private TextView tvUsername;
     private ImageView ivProfileImage;
     private Button btnChangeProfileImage;
+    private Button btnLogout;
 
     private File photoFile;
     public String photoFileName = "photo.jpg";
@@ -76,12 +79,22 @@ public class ProfileFragment extends Fragment {
         tvUsername = view.findViewById(R.id.tvProfileUsername);
         ivProfileImage = view.findViewById(R.id.ivProfileImage);
         btnChangeProfileImage = view.findViewById(R.id.btnChangeProfile);
+        btnLogout = view.findViewById(R.id.btnLogout);
 
         btnChangeProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.i(TAG, "change profile image button clicked");
                 launchCamera();
+            }
+        });
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ParseUser.logOut();
+                Intent i = new Intent(getContext(), LoginActivity.class);
+                startActivity(i);
             }
         });
 
