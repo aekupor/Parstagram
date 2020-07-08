@@ -5,10 +5,16 @@
     android:layout_gravity="center" android:orientation="vertical"  >
 
     <EditText
-        android:id="@+id/tvCommentDescription"
+        android:id="@+id/etComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="write your comment here"
         android:imeOptions="actionDone"
         android:inputType="text" />
+
+    <Button
+        android:id="@+id/btnCommentDone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Done" />
 </LinearLayout>

@@ -1,10 +1,12 @@
 package com.example.parstagram.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.Nullable;
@@ -14,7 +16,8 @@ import com.example.parstagram.R;
 
 public class ComposeCommentFragment extends DialogFragment {
 
-    private EditText tvCommentText;
+    EditText etCommentText;
+    Button btnDone;
 
     public ComposeCommentFragment() {
         // Empty constructor is required for DialogFragment
@@ -40,17 +43,20 @@ public class ComposeCommentFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // Get field from view
-        tvCommentText = (EditText) view.findViewById(R.id.tvCommentDescription);
-        // Show soft keyboard automatically and request focus to field
-        tvCommentText.requestFocus();
-    }
 
-    // Call this method to send the data back to the parent fragment
-    public void sendBackResult() {
-        // Notice the use of `getTargetFragment` which will be set when the dialog is displayed
-        ComposeCommentDialogListener listener = (ComposeCommentDialogListener) getTargetFragment();
-        listener.onFinishEditDialog(tvCommentText.getText().toString());
-        dismiss();
+        // Get field from view
+        etCommentText = view.findViewById(R.id.etComment);
+        btnDone = view.findViewById(R.id.btnCommentDone);
+
+        btnDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Return input text back to activity through the implemented listener
+                ComposeCommentDialogListener listener = (ComposeCommentDialogListener) getTargetFragment();
+                listener.onFinishEditDialog(etCommentText.getText().toString());
+                // Close the dialog and return back to the parent activity
+                dismiss();
+            }
+        });
     }
 }

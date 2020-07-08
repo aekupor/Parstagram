@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -126,10 +127,7 @@ public class DetailFragment extends Fragment implements ComposeCommentFragment.C
             @Override
             public void onClick(View view) {
                 Log.i(TAG, "comment button clicked");
-
-                final FragmentManager fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
-                Fragment fragment = (Fragment) ComposeCommentFragment.newInstance();
-                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                showEditDialog();
             }
         });
 
