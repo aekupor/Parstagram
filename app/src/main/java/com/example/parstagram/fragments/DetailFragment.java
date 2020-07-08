@@ -42,6 +42,8 @@ public class DetailFragment extends Fragment {
     private TextView tvDescription;
     private TextView tvLikes;
     private Button btnLike;
+    private Button btnComment;
+
     private RecyclerView rvComments;
     private CommentAdapter adapter;
     private List<Comment> allComments;
@@ -83,6 +85,7 @@ public class DetailFragment extends Fragment {
         tvDescription = view.findViewById(R.id.tvDescriptionDetail);
         tvLikes = view.findViewById(R.id.tvLikes);
         btnLike = view.findViewById(R.id.btnLike);
+        btnComment = view.findViewById(R.id.btnComment);
         rvComments = view.findViewById(R.id.rvComments);
 
         allComments = new ArrayList<>();
@@ -114,6 +117,13 @@ public class DetailFragment extends Fragment {
                         Log.i(TAG, "Post save was successful!");
                     }
                 });
+            }
+        });
+
+        btnComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(TAG, "comment button clicked");
             }
         });
 
