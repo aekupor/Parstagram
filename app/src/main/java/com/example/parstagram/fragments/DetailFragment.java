@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,6 +34,7 @@ public class DetailFragment extends Fragment {
     private ImageView ivImage;
     private TextView tvDescription;
     private TextView tvLikes;
+    private Button btnLike;
 
     private String postId;
     private Post post;
@@ -70,6 +72,22 @@ public class DetailFragment extends Fragment {
         ivImage = view.findViewById(R.id.ivImageDetail);
         tvDescription = view.findViewById(R.id.tvDescriptionDetail);
         tvLikes = view.findViewById(R.id.tvLikes);
+        btnLike = view.findViewById(R.id.btnLike);
+
+        btnLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(TAG, "like button clicked");
+                if (post.getLikes() == null) {
+                    tvLikes.setText("1");
+                    post.setLikes(1);
+                } else {
+                    Integer likes = post.getLikes() + 1;
+                    tvLikes.setText(likes.toString());
+                    post.setLikes(likes);
+                }
+            }
+        });
 
         queryPost();
     }
@@ -96,7 +114,7 @@ public class DetailFragment extends Fragment {
                 if (post.getLikes() == null) {
                     tvLikes.setText("0");
                 } else {
-                    tvLikes.setText("" + post.getLikes());
+                    tvLikes.setText(post.getLikes().toString());
                 }
 
                 ParseFile image = post.getImage();

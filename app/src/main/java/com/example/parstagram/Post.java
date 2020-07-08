@@ -47,11 +47,11 @@ public class Post extends ParseObject {
         put(KEY_USER, user);
     }
 
-    public Number getLikes() {
-        return getNumber(KEY_LIKES);
+    public Integer getLikes() {
+        return getInt(KEY_LIKES);
     }
 
-    public void setLikes(Number likes) {
+    public void setLikes(Integer likes) {
         put(KEY_LIKES, likes);
     }
 }
