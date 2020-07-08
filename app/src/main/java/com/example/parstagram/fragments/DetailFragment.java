@@ -150,6 +150,33 @@ public class DetailFragment extends Fragment {
                             .load(post.getImage().getUrl())
                             .into(ivImage);
                 }
+
+                queryComments();
+            }
+        });
+    }
+
+    protected void queryComments() {
+        Integer displayLimit = 20;
+
+        // Specify which class to query
+        ParseQuery<Comment> query = ParseQuery.getQuery(Comment.class);
+        query.include(Post.KEY_USER);
+        query.setLimit(displayLimit);
+        //query.whereEqualTo("forPost", postId);
+        //query.addDescendingOrder(Comment.KEY_CREATED_AT);
+        query.findInBackground(new FindCallback<Comment>() {
+            @Override
+            public void done(List<Comment> comments, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue with getting comments", e);
+                    return;
+                }
+                for (Comment comment : comments) {
+                    Log.i(TAG, "Comment text: " + comment.getText());
+                }
+                allComments.addAll(comments);
+                adapter.notifyDataSetChanged();
             }
         });
     }

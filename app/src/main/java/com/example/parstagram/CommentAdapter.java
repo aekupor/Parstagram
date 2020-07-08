@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 
 import org.w3c.dom.Text;
@@ -77,7 +78,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         }
 
         public void bind(Comment comment) {
-            tvUsername.setText(comment.getByUser().getUsername());
+            try {
+                tvUsername.setText(comment.getByUser().fetchIfNeeded().getUsername());
+            } catch (ParseException e) {
+                Log.i(TAG, e.toString());
+                e.printStackTrace();
+            }
+
             tvDescription.setText(comment.getText());
 
             if (comment.getByUser().getParseFile("profileImage") != null) {
