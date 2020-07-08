@@ -34,7 +34,7 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailFragment extends Fragment {
+public class DetailFragment extends Fragment implements ComposeCommentFragment.ComposeCommentDialogListener {
 
     public static final String TAG = "DetailFragment";
 
@@ -127,8 +127,8 @@ public class DetailFragment extends Fragment {
             public void onClick(View view) {
                 Log.i(TAG, "comment button clicked");
 
-                final FragmentManager fragmentManager = ((AppCompatActivity)getContext()).getSupportFragmentManager();
-                Fragment fragment = ComposeCommentFragment.newInstance();
+                final FragmentManager fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+                Fragment fragment = (Fragment) ComposeCommentFragment.newInstance();
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
             }
         });
@@ -200,4 +200,21 @@ public class DetailFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onFinishEditDialog(String inputText) {
+        // This is called when the dialog is completed and the results have been passed
+        Toast.makeText(getContext(), "Hi", Toast.LENGTH_SHORT).show();
+    }
+
+
+    // Call this method to launch the edit dialog
+    private void showEditDialog() {
+        FragmentManager fm = getFragmentManager();
+        ComposeCommentFragment composeCommentFragment = (ComposeCommentFragment) ComposeCommentFragment.newInstance();
+        // SETS the target fragment for use later when sending results
+        composeCommentFragment.setTargetFragment(DetailFragment.this, 300);
+        composeCommentFragment.show(fm, "fragment_compose_comment");
+    }
 }
+

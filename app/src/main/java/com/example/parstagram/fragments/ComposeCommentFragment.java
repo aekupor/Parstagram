@@ -27,6 +27,11 @@ public class ComposeCommentFragment extends DialogFragment {
         return frag;
     }
 
+    // Defines the listener interface
+    public interface ComposeCommentDialogListener {
+        void onFinishEditDialog(String inputText);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_compose_comment, container, false);
@@ -39,5 +44,13 @@ public class ComposeCommentFragment extends DialogFragment {
         tvCommentText = (EditText) view.findViewById(R.id.tvCommentDescription);
         // Show soft keyboard automatically and request focus to field
         tvCommentText.requestFocus();
+    }
+
+    // Call this method to send the data back to the parent fragment
+    public void sendBackResult() {
+        // Notice the use of `getTargetFragment` which will be set when the dialog is displayed
+        ComposeCommentDialogListener listener = (ComposeCommentDialogListener) getTargetFragment();
+        listener.onFinishEditDialog(tvCommentText.getText().toString());
+        dismiss();
     }
 }
