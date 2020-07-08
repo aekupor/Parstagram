@@ -5,9 +5,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.parse.ParseFile;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -55,15 +62,33 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        TextView tvUsername;
+        TextView tvDescription;
+        ImageView ivProfileImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            tvUsername = itemView.findViewById(R.id.tvUsernameComment);
+            tvDescription = itemView.findViewById(R.id.tvTextComment);
+            ivProfileImage = itemView.findViewById(R.id.ivProfileImageComment);
 
             itemView.setOnClickListener(this);
         }
 
         public void bind(Comment comment) {
+            tvUsername.setText(comment.getByUser().getUsername());
+            tvDescription.setText(comment.getText());
 
+            if (comment.getByUser().getParseFile("profileImage") != null) {
+                Glide.with(context)
+                        .load(comment.getByUser().getParseFile("profileImage").getUrl())
+                        .into(ivProfileImage);
+            } else {
+                Glide.with(context)
+                        .load(R.drawable.ic_baseline_person_outline_24)
+                        .into(ivProfileImage);
+            }
         }
 
         public void onClick(View v) {
