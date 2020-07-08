@@ -25,4 +25,16 @@ public class Comment extends ParseObject {
     public String getText() {
         return getString(KEY_TEXT);
     }
+
+    public void setForPost(Post post) {
+        put(KEY_FOR_POST, post);
+    }
+
+    public void setByUser(ParseUser user) {
+        put(KEY_BY_USER, user);
+    }
+
+    public void setText(String text) {
+        put(KEY_TEXT, text);
+    }
 }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,8 +31,10 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -202,9 +205,23 @@ public class DetailFragment extends Fragment implements ComposeCommentFragment.C
     @Override
     public void onFinishEditDialog(String inputText) {
         // This is called when the dialog is completed and the results have been passed
-        Toast.makeText(getContext(), "Hi", Toast.LENGTH_SHORT).show();
-    }
+        Log.i(TAG, "wrote comment: " + inputText);
 
+        Comment comment = new Comment();
+        comment.setByUser(ParseUser.getCurrentUser());
+        comment.setForPost(post);
+        comment.setText(inputText);
+        comment.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Error while saving", e);
+                    Toast.makeText(getContext(), "Error while saving!", Toast.LENGTH_SHORT).show();
+                }
+                Log.i(TAG, "Post save was successful!");
+            }
+        });
+    }
 
     // Call this method to launch the edit dialog
     private void showEditDialog() {
