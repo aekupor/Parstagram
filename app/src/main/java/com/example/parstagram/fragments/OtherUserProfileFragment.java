@@ -1,5 +1,6 @@
 package com.example.parstagram.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,6 +33,7 @@ import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -97,15 +99,31 @@ public class OtherUserProfileFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvPosts.setLayoutManager(linearLayoutManager);
 
-        queryPosts();
+        queryUser();
+        //queryPosts();
+    }
+
+    private void queryUser() {
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereMatches("objectId", userId);
+        query.findInBackground(new FindCallback<ParseUser>() {
+            public void done(List<ParseUser> users, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue with getting user", e);
+                    return;
+                }
+
+                Log.i(TAG, "User: " + users.get(0).getUsername());
+
+            }
+        });
     }
 
     protected void queryPosts() {
-        //TODO: QUERY POSTS
         // Specify which class to query
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
-        query.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
+        query.whereEqualTo(Post.KEY_USER, userId);
         query.setLimit(20);
         query.addDescendingOrder(Post.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Post>() {
