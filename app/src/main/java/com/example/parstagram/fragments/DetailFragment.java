@@ -93,7 +93,11 @@ public class DetailFragment extends Fragment {
                 tvUsername.setText(post.getUser().getUsername());
                 tvDescription.setText(post.getDescription());
                 tvCreatedAt.setText(post.getCreatedAt().toString());
-                tvLikes.setText("" + post.getLikes());
+                if (post.getLikes() == null) {
+                    tvLikes.setText("0");
+                } else {
+                    tvLikes.setText("" + post.getLikes());
+                }
 
                 ParseFile image = post.getImage();
                 if (image != null) {
