@@ -20,17 +20,16 @@ public class ComposeCommentFragment extends DialogFragment {
         // Empty constructor is required for DialogFragment
     }
 
-    public static ComposeCommentFragment newInstance(String text) {
+    public static ComposeCommentFragment newInstance() {
         ComposeCommentFragment frag = new ComposeCommentFragment();
         Bundle args = new Bundle();
-        args.putString("text", text);
         frag.setArguments(args);
         return frag;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_compose_comment, container);
+        return inflater.inflate(R.layout.fragment_compose_comment, container, false);
     }
 
     @Override
@@ -38,11 +37,7 @@ public class ComposeCommentFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         // Get field from view
         tvCommentText = (EditText) view.findViewById(R.id.tvCommentDescription);
-        // Fetch arguments from bundle and set title
-        String title = getArguments().getString("text", "");
-        getDialog().setTitle(title);
         // Show soft keyboard automatically and request focus to field
         tvCommentText.requestFocus();
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
 }
