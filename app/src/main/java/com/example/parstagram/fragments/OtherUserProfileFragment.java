@@ -99,7 +99,6 @@ public class OtherUserProfileFragment extends Fragment {
         rvPosts.setLayoutManager(linearLayoutManager);
 
         queryUser();
-        queryPosts();
     }
 
     private void queryUser() {
@@ -124,14 +123,14 @@ public class OtherUserProfileFragment extends Fragment {
                             .load(R.drawable.ic_baseline_person_outline_24)
                             .into(ivProfileImage);
                 }
+                queryPosts();
             }
         });
     }
 
     protected void queryPosts() {
-        // Specify which class to query
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
-        //query.include(Post.KEY_USER);
+        query.include(Post.KEY_USER);
         query.whereEqualTo(Post.KEY_USER, user);
         query.setLimit(20);
         query.addDescendingOrder(Post.KEY_CREATED_AT);
