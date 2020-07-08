@@ -7,16 +7,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.parstagram.Comment;
+import com.example.parstagram.CommentAdapter;
 import com.example.parstagram.Post;
+import com.example.parstagram.PostsAdapter;
 import com.example.parstagram.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -24,8 +28,7 @@ import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
-import org.parceler.Parcels;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class DetailFragment extends Fragment {
@@ -38,6 +41,9 @@ public class DetailFragment extends Fragment {
     private TextView tvDescription;
     private TextView tvLikes;
     private Button btnLike;
+    private RecyclerView rvComments;
+    private CommentAdapter adapter;
+    private List<Comment> allComments;
 
     private String postId;
     private Post post;
@@ -76,6 +82,14 @@ public class DetailFragment extends Fragment {
         tvDescription = view.findViewById(R.id.tvDescriptionDetail);
         tvLikes = view.findViewById(R.id.tvLikes);
         btnLike = view.findViewById(R.id.btnLike);
+        rvComments = view.findViewById(R.id.rvComments);
+
+        allComments = new ArrayList<>();
+        adapter = new CommentAdapter(getContext(), allComments);
+
+        rvComments.setAdapter(adapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        rvComments.setLayoutManager(linearLayoutManager);
 
         btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
