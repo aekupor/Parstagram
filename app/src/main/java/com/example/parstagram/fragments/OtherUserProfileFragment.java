@@ -44,7 +44,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class OtherUserProfileFragment extends Fragment {
 
-    public static final String TAG = "ProfileFragment";
+    public static final String TAG = "OtherUserProfileFragment";
 
     private RecyclerView rvPosts;
     private PostsAdapter adapter;
@@ -52,11 +52,25 @@ public class OtherUserProfileFragment extends Fragment {
 
     private TextView tvUsername;
     private ImageView ivProfileImage;
-
-    private File photoFile;
+    private String userId;
 
     public OtherUserProfileFragment() {
         // Required empty public constructor
+    }
+
+    public static OtherUserProfileFragment newInstance(String userId) {
+        OtherUserProfileFragment otherUserProfileFragment = new OtherUserProfileFragment();
+        Bundle args = new Bundle();
+        args.putString("userId", userId);
+        otherUserProfileFragment.setArguments(args);
+        return otherUserProfileFragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        userId = getArguments().getString("userId", "");
+        Log.i(TAG, "user id: " + userId);
     }
 
     @Override

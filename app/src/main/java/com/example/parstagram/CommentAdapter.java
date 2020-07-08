@@ -9,9 +9,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.parstagram.fragments.DetailFragment;
+import com.example.parstagram.fragments.OtherUserProfileFragment;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 
@@ -103,10 +108,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             int position = getAdapterPosition();
             // make sure the position is valid, i.e. actually exists in the view
             if (position != RecyclerView.NO_POSITION) {
-                // get the post at the position
-                Comment comment = comments.get(position);
+                // make sure the position is valid, i.e. actually exists in the view
+                if (position != RecyclerView.NO_POSITION) {
+                    // get the post at the position
+                    Comment comment = comments.get(position);
+                    Log.i(TAG, "comment clicked: " + comment.getByUser().getUsername());
 
-                Log.i(TAG, "post clicked: " + comment.getByUser().getUsername());
+                    // go to Profile Fragment
+                    final FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+                    Fragment fragment = OtherUserProfileFragment.newInstance(comment.getByUser().getObjectId());
+                    fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                }
             }
         }
     }
