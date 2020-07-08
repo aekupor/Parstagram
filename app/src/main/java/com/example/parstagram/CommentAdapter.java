@@ -62,7 +62,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             itemView.setOnClickListener(this);
         }
 
-        public void bind(Post post) {
+        public void bind(Comment comment) {
 
         }
 
