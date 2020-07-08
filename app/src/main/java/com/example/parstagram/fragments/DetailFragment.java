@@ -25,6 +25,7 @@ import com.example.parstagram.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
@@ -161,10 +162,13 @@ public class DetailFragment extends Fragment {
 
         // Specify which class to query
         ParseQuery<Comment> query = ParseQuery.getQuery(Comment.class);
-        query.include(Post.KEY_USER);
         query.setLimit(displayLimit);
-        //query.whereEqualTo("forPost", postId);
-        //query.addDescendingOrder(Comment.KEY_CREATED_AT);
+
+        //since comparing a pointer, need to create pointer to compare to
+        ParseObject obj = ParseObject.createWithoutData("Post", postId);
+        query.whereEqualTo("forPost", obj);
+
+        query.addDescendingOrder(Comment.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Comment>() {
             @Override
             public void done(List<Comment> comments, ParseException e) {
