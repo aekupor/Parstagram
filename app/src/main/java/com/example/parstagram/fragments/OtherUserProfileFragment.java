@@ -55,6 +55,7 @@ public class OtherUserProfileFragment extends Fragment {
     private TextView tvUsername;
     private ImageView ivProfileImage;
     private String userId;
+    private ParseUser user;
 
     public OtherUserProfileFragment() {
         // Required empty public constructor
@@ -90,8 +91,6 @@ public class OtherUserProfileFragment extends Fragment {
         tvUsername = view.findViewById(R.id.tvOtherProfileUsername);
         ivProfileImage = view.findViewById(R.id.ivOtherProfileImage);
 
-        //TODO: load profile image and set username
-
         allPosts = new ArrayList<>();
         adapter = new PostsAdapter(getContext(), allPosts);
 
@@ -100,7 +99,7 @@ public class OtherUserProfileFragment extends Fragment {
         rvPosts.setLayoutManager(linearLayoutManager);
 
         queryUser();
-        //queryPosts();
+        queryPosts();
     }
 
     private void queryUser() {
@@ -112,9 +111,19 @@ public class OtherUserProfileFragment extends Fragment {
                     Log.e(TAG, "Issue with getting user", e);
                     return;
                 }
+                user = users.get(0);
+                Log.i(TAG, "User: " + user.getUsername());
 
-                Log.i(TAG, "User: " + users.get(0).getUsername());
-
+                tvUsername.setText(user.getUsername());
+                if (user.getParseFile("profileImage") != null) {
+                    Glide.with(getContext())
+                            .load(user.getParseFile("profileImage").getUrl())
+                            .into(ivProfileImage);
+                } else {
+                    Glide.with(getContext())
+                            .load(R.drawable.ic_baseline_person_outline_24)
+                            .into(ivProfileImage);
+                }
             }
         });
     }
@@ -122,8 +131,8 @@ public class OtherUserProfileFragment extends Fragment {
     protected void queryPosts() {
         // Specify which class to query
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
-        query.include(Post.KEY_USER);
-        query.whereEqualTo(Post.KEY_USER, userId);
+        //query.include(Post.KEY_USER);
+        query.whereEqualTo(Post.KEY_USER, user);
         query.setLimit(20);
         query.addDescendingOrder(Post.KEY_CREATED_AT);
         query.findInBackground(new FindCallback<Post>() {
