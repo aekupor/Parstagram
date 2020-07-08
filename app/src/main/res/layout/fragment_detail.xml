@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -20,6 +20,7 @@
         android:layout_weight="1"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:layout_below="@+id/ivProfileImageDetail"
         tools:text="ashlee" />
 
     <TextView
@@ -27,47 +28,57 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_below="@+id/tvUsernameDetail"
         android:text="7:00pm" />
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvComments"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/btnComment"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/tvLikesTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_below="@+id/tvCreatedAtDetail"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@+id/tvLikes"
+        android:text="Likes" />
 
-        <TextView
-            android:id="@+id/tvLikes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            tools:text="14" />
+    <Button
+        android:id="@+id/btnComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_below="@+id/tvDescriptionDetail"
+        android:text="Comment" />
 
-        <TextView
-            android:id="@+id/tvLikesTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Likes" />
+    <TextView
+        android:id="@+id/tvLikes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_below="@+id/tvCreatedAtDetail"
+        tools:text="14" />
 
-        <Button
-            android:id="@+id/btnLike"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Like" />
-
-        <Button
-            android:id="@+id/btnComment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Comment" />
-    </LinearLayout>
+    <Button
+        android:id="@+id/btnLike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvCreatedAtDetail"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@+id/tvLikesTitle"
+        android:layout_weight="1"
+        android:text="Like" />
 
     <ImageView
         android:id="@+id/ivImageDetail"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_below="@+id/btnLike"
         android:layout_weight="1"
         tools:srcCompat="@tools:sample/avatars" />
 
@@ -76,11 +87,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:layout_below="@+id/ivImageDetail"
         android:text="hey this is my new pic" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvComments"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_weight="1" />
-</LinearLayout>
+</RelativeLayout>
