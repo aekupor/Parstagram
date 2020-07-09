@@ -25,8 +25,11 @@ import com.example.parstagram.adapters.PostsAdapter;
 import com.example.parstagram.R;
 import com.example.parstagram.models.User;
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -36,6 +39,7 @@ import java.util.List;
 public class OtherUserProfileFragment extends Fragment {
 
     public static final String TAG = "OtherUserProfileFragment";
+    public static final String KEY_FOLLOWERS = "followers";
 
     private RecyclerView rvPosts;
     private PostsAdapter adapter;
@@ -104,13 +108,14 @@ public class OtherUserProfileFragment extends Fragment {
             }
         });
 
+
         btnFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.i(TAG, "follow button clicked");
                 User currentUser = (User) ParseUser.getCurrentUser();
+                /*
                 currentUser.addFollowing(ParseUser.getCurrentUser());
-
                 currentUser.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
@@ -121,10 +126,46 @@ public class OtherUserProfileFragment extends Fragment {
                         Log.i(TAG, "Post save was successful!");
                     }
                 });
+
+                 */
+
+                ParseRelation<ParseObject> relation = currentUser.getRelation(KEY_FOLLOWERS);
+                relation.add(user);
+
+
+                currentUser.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            Log.i(TAG, "post save unsuccessful");
+                        }
+                        Log.i(TAG, "post save successful");
+                    }
+                });
+
             }
         });
 
         queryUser();
+    }
+
+    private void findFollowers() {
+        //find followers of user
+        ParseQuery<User> query = ParseQuery.getQuery("_User");
+        query.whereEqualTo(KEY_FOLLOWERS, user);
+        query.findInBackground(new FindCallback<User>() {
+            @Override
+            public void done(List<User> objects, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "error getting followers");
+                }
+                Log.i(TAG, "got followers");
+                for (User user : objects) {
+                    Log.i(TAG, "user: " + user.getUsername());
+                }
+                tvNumFollowers.setText(String.valueOf(objects.size()));
+            }
+        });
     }
 
     private void queryUser() {
@@ -140,11 +181,11 @@ public class OtherUserProfileFragment extends Fragment {
                 Log.i(TAG, "User: " + user.getUsername());
 
                 tvUsername.setText(user.getUsername());
-                if (user.getFollowers() == null) {
-                    tvNumFollowers.setText("0");
-                } else {
-                    tvNumFollowers.setText(user.getFollowers().size());
-                }
+               // if (user.getFollowers() == null) {
+                 //   tvNumFollowers.setText("0");
+               // } else {
+                //    tvNumFollowers.setText(user.getFollowers().size());
+                //}
 
                 if (user.getParseFile("profileImage") != null) {
                     Glide.with(getContext())
