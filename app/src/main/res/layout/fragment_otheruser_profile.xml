@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -20,31 +20,48 @@
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:layout_below="@+id/ivOtherProfileImage"
         tools:text="ashlee" />
 
     <TextView
         android:id="@+id/tvNumFollowers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tvOtherProfileUsername"
         tools:text="17" />
 
     <Button
         android:id="@+id/btnFollow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tvNumFollowers"
         android:text="Follow" />
 
     <Button
         android:id="@+id/btnChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tvNumFollowers"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@+id/btnFollow"
         android:text="Chat" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvOtherProfilePosts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/btnChat"
         android:padding="8dp" />
 
+    <TextView
+        android:id="@+id/tvFollowersTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvOtherProfileUsername"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="0dp"
+        android:layout_toEndOf="@+id/tvNumFollowers"
+        android:text="Followers" />
 
-</LinearLayout>
+
+</RelativeLayout>
