@@ -29,6 +29,12 @@
         tools:text="17" />
 
     <Button
+        android:id="@+id/btnFollow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Follow" />
+
+    <Button
         android:id="@+id/btnChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

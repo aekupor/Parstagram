@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +28,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +47,7 @@ public class OtherUserProfileFragment extends Fragment {
     private Button btnChat;
     private User user;
     private TextView tvNumFollowers;
+    private Button btnFollow;
 
     public OtherUserProfileFragment() {
         // Required empty public constructor
@@ -81,6 +84,7 @@ public class OtherUserProfileFragment extends Fragment {
         ivProfileImage = view.findViewById(R.id.ivOtherProfileImage);
         btnChat = view.findViewById(R.id.btnChat);
         tvNumFollowers = view.findViewById(R.id.tvNumFollowers);
+        btnFollow = view.findViewById(R.id.btnFollow);
 
         allPosts = new ArrayList<>();
         adapter = new PostsAdapter(getContext(), allPosts);
@@ -88,7 +92,6 @@ public class OtherUserProfileFragment extends Fragment {
         rvPosts.setAdapter(adapter);
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         rvPosts.setLayoutManager(gridLayoutManager);
-
 
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +101,26 @@ public class OtherUserProfileFragment extends Fragment {
                 final FragmentManager fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
                 Fragment fragment = ChatFragment.newInstance();
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+            }
+        });
+
+        btnFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(TAG, "follow button clicked");
+                User currentUser = (User) ParseUser.getCurrentUser();
+                currentUser.addFollowing(ParseUser.getCurrentUser());
+
+                currentUser.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            Log.e(TAG, "Error while saving", e);
+                            Toast.makeText(getContext(), "Error while saving!", Toast.LENGTH_SHORT).show();
+                        }
+                        Log.i(TAG, "Post save was successful!");
+                    }
+                });
             }
         });
 
