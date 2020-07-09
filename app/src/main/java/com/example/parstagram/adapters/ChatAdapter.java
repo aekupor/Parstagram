@@ -13,9 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.parstagram.models.Message;
 import com.example.parstagram.R;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
@@ -54,23 +56,26 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             holder.body.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
         }
 
+        //set profile image
         final ImageView profileView = isMe ? holder.imageMe : holder.imageOther;
-        Glide.with(mContext).load(getProfileUrl(message.getUserId())).into(profileView);
-        holder.body.setText(message.getBody());
-    }
-
-    // Create a gravatar image based on the hash value obtained from userId
-    private static String getProfileUrl(final String userId) {
-        String hex = "";
-        try {
-            final MessageDigest digest = MessageDigest.getInstance("MD5");
-            final byte[] hash = digest.digest(userId.getBytes());
-            final BigInteger bigInt = new BigInteger(hash);
-            hex = bigInt.abs().toString(16);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (isMe) {
+            Glide.with(mContext).load(ParseUser.getCurrentUser().getParseFile("profileImage").getUrl()).into(profileView);
+        } else {
+            ParseQuery query = ParseUser.getQuery();
+            query.whereEqualTo("objectId", message.getUserId());
+            query.findInBackground(new FindCallback<ParseUser>() {
+                public void done(List<ParseUser> objects, ParseException e) {
+                    if (e == null) {
+                        // The query was successful.
+                        String image = objects.get(0).getParseFile("profileImage").getUrl();
+                        Glide.with(mContext).load(image).into(profileView);
+                    } else {
+                        // Something went wrong.
+                    }
+                }
+            });
         }
-        return "https://www.gravatar.com/avatar/" + hex + "?d=identicon";
+        holder.body.setText(message.getBody());
     }
 
     @Override
