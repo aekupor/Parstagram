@@ -11,7 +11,7 @@ public class User extends ParseUser {
     public static final String KEY_FOLLOWERS = "followers";
     public static final String KEY_FOLLOWING = "following";
 
-    public ArrayList<ParseUser> getFollower() {
+    public ArrayList<ParseUser> getFollowers() {
         return (ArrayList<ParseUser>) get(KEY_FOLLOWERS);
     }
 

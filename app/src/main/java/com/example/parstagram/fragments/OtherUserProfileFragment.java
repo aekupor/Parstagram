@@ -18,9 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.bumptech.glide.Glide;
+import com.example.parstagram.models.Comment;
 import com.example.parstagram.models.Post;
 import com.example.parstagram.adapters.PostsAdapter;
 import com.example.parstagram.R;
+import com.example.parstagram.models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -41,7 +43,8 @@ public class OtherUserProfileFragment extends Fragment {
     private ImageView ivProfileImage;
     private String userId;
     private Button btnChat;
-    private ParseUser user;
+    private User user;
+    private TextView tvNumFollowers;
 
     public OtherUserProfileFragment() {
         // Required empty public constructor
@@ -77,6 +80,7 @@ public class OtherUserProfileFragment extends Fragment {
         tvUsername = view.findViewById(R.id.tvOtherProfileUsername);
         ivProfileImage = view.findViewById(R.id.ivOtherProfileImage);
         btnChat = view.findViewById(R.id.btnChat);
+        tvNumFollowers = view.findViewById(R.id.tvNumFollowers);
 
         allPosts = new ArrayList<>();
         adapter = new PostsAdapter(getContext(), allPosts);
@@ -101,10 +105,10 @@ public class OtherUserProfileFragment extends Fragment {
     }
 
     private void queryUser() {
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        ParseQuery<User> query = ParseQuery.getQuery(User.class);
         query.whereMatches("objectId", userId);
-        query.findInBackground(new FindCallback<ParseUser>() {
-            public void done(List<ParseUser> users, ParseException e) {
+        query.findInBackground(new FindCallback<User>() {
+            public void done(List<User> users, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Issue with getting user", e);
                     return;
@@ -113,6 +117,12 @@ public class OtherUserProfileFragment extends Fragment {
                 Log.i(TAG, "User: " + user.getUsername());
 
                 tvUsername.setText(user.getUsername());
+                if (user.getFollowers() == null) {
+                    tvNumFollowers.setText("0");
+                } else {
+                    tvNumFollowers.setText(user.getFollowers().size());
+                }
+
                 if (user.getParseFile("profileImage") != null) {
                     Glide.with(getContext())
                             .load(user.getParseFile("profileImage").getUrl())
