@@ -1,4 +1,4 @@
-package com.example.parstagram;
+package com.example.parstagram.adapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -15,12 +15,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.parstagram.fragments.DetailFragment;
+import com.example.parstagram.models.Comment;
+import com.example.parstagram.R;
 import com.example.parstagram.fragments.OtherUserProfileFragment;
 import com.parse.ParseException;
-import com.parse.ParseFile;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
