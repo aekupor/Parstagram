@@ -19,8 +19,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -55,6 +57,7 @@ public class OtherUserProfileFragment extends Fragment {
     private TextView tvUsername;
     private ImageView ivProfileImage;
     private String userId;
+    private Button btnChat;
     private ParseUser user;
 
     public OtherUserProfileFragment() {
@@ -90,6 +93,7 @@ public class OtherUserProfileFragment extends Fragment {
         rvPosts = view.findViewById(R.id.rvOtherProfilePosts);
         tvUsername = view.findViewById(R.id.tvOtherProfileUsername);
         ivProfileImage = view.findViewById(R.id.ivOtherProfileImage);
+        btnChat = view.findViewById(R.id.btnChat);
 
         allPosts = new ArrayList<>();
         adapter = new PostsAdapter(getContext(), allPosts);
@@ -97,6 +101,18 @@ public class OtherUserProfileFragment extends Fragment {
         rvPosts.setAdapter(adapter);
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         rvPosts.setLayoutManager(gridLayoutManager);
+
+
+        btnChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(TAG, "chat button clicked");
+                // go to Chat Fragment
+                final FragmentManager fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+                Fragment fragment = ChatFragment.newInstance();
+                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+            }
+        });
 
         queryUser();
     }
