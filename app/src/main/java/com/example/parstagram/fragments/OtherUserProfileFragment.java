@@ -95,8 +95,8 @@ public class OtherUserProfileFragment extends Fragment {
         adapter = new PostsAdapter(getContext(), allPosts);
 
         rvPosts.setAdapter(adapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        rvPosts.setLayoutManager(linearLayoutManager);
+        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+        rvPosts.setLayoutManager(gridLayoutManager);
 
         queryUser();
     }
