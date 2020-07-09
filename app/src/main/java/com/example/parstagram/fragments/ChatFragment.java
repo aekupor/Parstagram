@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.parstagram.CommentAdapter;
+import com.example.parstagram.Message;
 import com.example.parstagram.R;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -68,9 +69,12 @@ public class ChatFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String data = etMessage.getText().toString();
-                ParseObject message = ParseObject.create("Message");
-                message.put(USER_ID_KEY, ParseUser.getCurrentUser().getObjectId());
-                message.put(BODY_KEY, data);
+
+                // Use Message Parse-backed model
+                Message message = new Message();
+                message.setBody(data);
+                message.setUserId(ParseUser.getCurrentUser().getObjectId());
+
                 message.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
