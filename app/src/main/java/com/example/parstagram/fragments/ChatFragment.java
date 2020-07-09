@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,6 +83,9 @@ public class ChatFragment extends Fragment {
         // associate the LayoutManager with the RecylcerView
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvChat.setLayoutManager(linearLayoutManager);
+        linearLayoutManager.setReverseLayout(true); //to make chats appear from newest to oldest
+
+        refreshMessages();
 
         btSend.setOnClickListener(new View.OnClickListener() {
             @Override
