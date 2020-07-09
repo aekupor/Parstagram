@@ -24,7 +24,12 @@ public class User extends ParseUser {
     }
 
     public void addFollowing(ParseUser user) {
-        put(KEY_FOLLOWING, user);
+        ArrayList<ParseUser> following = getFollowers();
+        if (following == null) {
+            following = new ArrayList<>();
+        }
+        following.add(user);
+        put(KEY_FOLLOWING, following);
     }
 
 }
