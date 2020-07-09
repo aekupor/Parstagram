@@ -103,13 +103,21 @@ public class DetailFragment extends Fragment implements ComposeCommentFragment.C
             @Override
             public void onClick(View view) {
                 Log.i(TAG, "like button clicked");
-                if (post.getLikes() == null) {
-                    tvLikes.setText("1");
-                    post.setLikes(1);
+                if (btnLike.getText().toString().equals("Like")) {
+                    if (post.getLikes() == null) {
+                        tvLikes.setText("1");
+                        post.setLikes(1);
+                    } else {
+                        Integer likes = post.getLikes() + 1;
+                        tvLikes.setText(likes.toString());
+                        post.setLikes(likes);
+                    }
+                    btnLike.setText("Unlike");
                 } else {
-                    Integer likes = post.getLikes() + 1;
+                    Integer likes = post.getLikes() - 1;
                     tvLikes.setText(likes.toString());
                     post.setLikes(likes);
+                    btnLike.setText("Like");
                 }
                 post.saveInBackground(new SaveCallback() {
                     @Override
