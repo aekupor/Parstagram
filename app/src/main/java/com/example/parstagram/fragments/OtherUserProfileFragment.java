@@ -113,36 +113,21 @@ public class OtherUserProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.i(TAG, "follow button clicked");
+
                 User currentUser = (User) ParseUser.getCurrentUser();
-                /*
-                currentUser.addFollowing(ParseUser.getCurrentUser());
-                currentUser.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e != null) {
-                            Log.e(TAG, "Error while saving", e);
-                            Toast.makeText(getContext(), "Error while saving!", Toast.LENGTH_SHORT).show();
-                        }
-                        Log.i(TAG, "Post save was successful!");
-                    }
-                });
-
-                 */
-
                 ParseRelation<ParseObject> relation = currentUser.getRelation(KEY_FOLLOWERS);
                 relation.add(user);
 
-
                 currentUser.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         if (e != null) {
-                            Log.i(TAG, "post save unsuccessful");
+                            Log.i(TAG, "followers update unsuccessful");
                         }
-                        Log.i(TAG, "post save successful");
+                        Log.i(TAG, "followers update successful");
+                        findFollowers();
                     }
                 });
-
             }
         });
 
@@ -181,11 +166,7 @@ public class OtherUserProfileFragment extends Fragment {
                 Log.i(TAG, "User: " + user.getUsername());
 
                 tvUsername.setText(user.getUsername());
-               // if (user.getFollowers() == null) {
-                 //   tvNumFollowers.setText("0");
-               // } else {
-                //    tvNumFollowers.setText(user.getFollowers().size());
-                //}
+                findFollowers();
 
                 if (user.getParseFile("profileImage") != null) {
                     Glide.with(getContext())
