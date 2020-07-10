@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.parstagram.Query;
 import com.example.parstagram.R;
 import com.example.parstagram.adapters.FollowerAdapter;
 import com.example.parstagram.models.User;
@@ -33,6 +34,7 @@ public class FollowersFragment extends Fragment {
     private RecyclerView rvComments;
     private FollowerAdapter adapter;
     private List<User> allUsers;
+    private Query query;
 
     public FollowersFragment() {
         // Required empty public constructor
@@ -65,6 +67,7 @@ public class FollowersFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         rvComments = view.findViewById(R.id.rvFollowers);
+        query = new Query();
 
         allUsers = new ArrayList<User>();
         adapter = new FollowerAdapter(getContext(), allUsers);
@@ -77,10 +80,9 @@ public class FollowersFragment extends Fragment {
     }
 
 
-    private void queryUser() {
-        ParseQuery<User> query = ParseQuery.getQuery(User.class);
-        query.whereMatches("objectId", userId);
-        query.findInBackground(new FindCallback<User>() {
+     private void queryUser() {
+        query.queryUser(userId, new FindCallback<User>() {
+            @Override
             public void done(List<User> users, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Issue with getting user", e);
