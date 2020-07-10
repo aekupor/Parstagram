@@ -5,12 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
-
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -23,10 +17,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.parstagram.models.Post;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
+
+import com.example.parstagram.Camera;
 import com.example.parstagram.R;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -144,7 +142,22 @@ public class ComposeFragment extends Fragment {
 
     private void savePost(String description, ParseUser currentUser, File photoFile) {
         pb.setVisibility(ProgressBar.VISIBLE);
+        Camera camera = new Camera();
+        camera.savePost(description, currentUser, photoFile, new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Error while saving", e);
+                    Toast.makeText(getContext(), "Error while saving!", Toast.LENGTH_SHORT).show();
+                }
+                Log.i(TAG, "Post save was successful!");
+                etDescription.setText("");
+                ivPostImage.setImageResource(0);
+                pb.setVisibility(ProgressBar.INVISIBLE);
+            }
+        });
 
+        /*
         Post post = new Post();
         post.setDescription(description);
         post.setImage(new ParseFile(photoFile));
@@ -162,5 +175,7 @@ public class ComposeFragment extends Fragment {
                 pb.setVisibility(ProgressBar.INVISIBLE);
             }
         });
+
+         */
     }
 }
