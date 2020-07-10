@@ -1,6 +1,7 @@
 package com.example.parstagram.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +16,25 @@ public class FollowersFragment extends Fragment {
 
     public static final String TAG = "FollowersFragment";
 
+    private String userId;
+
     public FollowersFragment() {
         // Required empty public constructor
     }
 
-    public static FollowersFragment newInstance() {
+    public static FollowersFragment newInstance(String userId) {
         FollowersFragment followersFragment = new FollowersFragment();
         Bundle args = new Bundle();
+        args.putString("userId", userId);
         followersFragment.setArguments(args);
         return followersFragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        userId = getArguments().getString("userId", "");
+        Log.i(TAG, "user id: " + userId);
     }
 
     @Override
@@ -36,7 +47,5 @@ public class FollowersFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
     }
-
 }

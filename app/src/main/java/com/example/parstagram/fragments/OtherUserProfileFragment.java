@@ -162,7 +162,7 @@ public class OtherUserProfileFragment extends Fragment {
         Log.i(TAG, "list followers clicked");
         // go to Followers Fragment
         final FragmentManager fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
-        Fragment fragment = FollowersFragment.newInstance();
+        Fragment fragment = FollowersFragment.newInstance(userId);
         fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
     }
 
