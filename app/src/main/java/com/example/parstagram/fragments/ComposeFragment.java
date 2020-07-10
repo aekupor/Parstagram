@@ -154,8 +154,7 @@ public class ComposeFragment extends Fragment {
 
             // Load the selected image into a preview
             ivPostImage.setImageBitmap(selectedImage);
-            //TODO
-            photoFile = camera.getPhotoFileUri(photoFileName, getContext());
+            photoFile = camera.createFile(getContext(), selectedImage);
         }
     }
 
