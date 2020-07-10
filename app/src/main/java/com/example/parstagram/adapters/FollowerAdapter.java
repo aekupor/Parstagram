@@ -14,23 +14,20 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.parstagram.R;
 import com.example.parstagram.fragments.OtherUserProfileFragment;
-import com.example.parstagram.models.Comment;
 import com.example.parstagram.models.User;
-import com.parse.ParseException;
 
 import java.util.List;
 
-public class FollowAdapter extends RecyclerView.Adapter<FollowAdapter.ViewHolder> {
+public class FollowerAdapter extends RecyclerView.Adapter<FollowerAdapter.ViewHolder> {
 
     public static final String TAG = "FollowAdapter";
 
     private Context context;
     private List<User> users;
 
-    public FollowAdapter(Context context, List<User> users) {
+    public FollowerAdapter(Context context, List<User> users) {
         this.context = context;
         this.users = users;
     }
@@ -67,7 +64,7 @@ public class FollowAdapter extends RecyclerView.Adapter<FollowAdapter.ViewHolder
             itemView.setOnClickListener(this);
         }
 
-        public void bind(Comment comment) {
+        public void bind(User user) {
             //set username and profile image
         }
 
