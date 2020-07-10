@@ -19,11 +19,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.parstagram.ProfileImage;
 import com.example.parstagram.Query;
 import com.example.parstagram.R;
 import com.example.parstagram.adapters.CommentAdapter;
 import com.example.parstagram.models.Comment;
 import com.example.parstagram.models.Post;
+import com.example.parstagram.models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -197,15 +199,10 @@ public class DetailFragment extends Fragment implements ComposeCommentFragment.C
                             .into(ivImage);
                 }
 
-                if (post.getUser().getParseFile("profileImage") != null) {
-                    Glide.with(getContext())
-                            .load(post.getUser().getParseFile("profileImage").getUrl())
-                            .into(ivProfileImage);
-                } else {
-                    Glide.with(getContext())
-                            .load(R.drawable.ic_baseline_person_outline_24)
-                            .into(ivProfileImage);
-                }
+                ProfileImage getProfile = new ProfileImage();
+                Glide.with(getContext())
+                        .load(getProfile.getProfileImage((User) post.getUser()))
+                        .into(ivProfileImage);
 
                 queryComments();
             }
