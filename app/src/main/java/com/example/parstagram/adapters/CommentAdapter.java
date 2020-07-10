@@ -15,9 +15,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.parstagram.models.Comment;
+import com.example.parstagram.ProfileImage;
 import com.example.parstagram.R;
 import com.example.parstagram.fragments.OtherUserProfileFragment;
+import com.example.parstagram.models.Comment;
+import com.example.parstagram.models.User;
 import com.parse.ParseException;
 
 import java.util.List;
@@ -90,15 +92,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
             tvDescription.setText(comment.getText());
 
-            if (comment.getByUser().getParseFile("profileImage") != null) {
-                Glide.with(context)
-                        .load(comment.getByUser().getParseFile("profileImage").getUrl())
-                        .into(ivProfileImage);
-            } else {
-                Glide.with(context)
-                        .load(R.drawable.ic_baseline_person_outline_24)
-                        .into(ivProfileImage);
-            }
+            ProfileImage getProfile = new ProfileImage();
+            Glide.with(context)
+                    .load(getProfile.getProfileImage((User) comment.getByUser()))
+                    .into(ivProfileImage);
         }
 
         public void onClick(View v) {
