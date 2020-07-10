@@ -11,12 +11,19 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.parstagram.R;
+import com.example.parstagram.models.User;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+
+import java.util.List;
 
 public class FollowersFragment extends Fragment {
 
     public static final String TAG = "FollowersFragment";
 
     private String userId;
+    private User user;
 
     public FollowersFragment() {
         // Required empty public constructor
@@ -47,5 +54,23 @@ public class FollowersFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        queryUser();
+    }
+
+
+    private void queryUser() {
+        ParseQuery<User> query = ParseQuery.getQuery(User.class);
+        query.whereMatches("objectId", userId);
+        query.findInBackground(new FindCallback<User>() {
+            public void done(List<User> users, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issue with getting user", e);
+                    return;
+                }
+                user = users.get(0);
+                Log.i(TAG, "User: " + user.getUsername());
+            }
+        });
     }
 }
