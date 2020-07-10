@@ -19,10 +19,11 @@ import com.example.parstagram.ProfileImage;
 import com.example.parstagram.R;
 import com.example.parstagram.fragments.DetailFragment;
 import com.example.parstagram.models.Post;
-import com.example.parstagram.models.User;
 import com.parse.ParseFile;
 
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
 
@@ -95,7 +96,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
             ProfileImage getProfile = new ProfileImage();
             Glide.with(context)
-                    .load(getProfile.getProfileImage((User)post.getUser()))
+                    .load(getProfile.getProfileImage(post.getUser()))
+                    .transform(new RoundedCornersTransformation(30, 10))
                     .into(ivProfileImage);
         }
 

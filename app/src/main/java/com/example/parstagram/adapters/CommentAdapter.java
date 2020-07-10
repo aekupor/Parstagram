@@ -19,7 +19,6 @@ import com.example.parstagram.ProfileImage;
 import com.example.parstagram.R;
 import com.example.parstagram.fragments.OtherUserProfileFragment;
 import com.example.parstagram.models.Comment;
-import com.example.parstagram.models.User;
 import com.parse.ParseException;
 
 import java.util.List;
@@ -94,7 +93,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
             ProfileImage getProfile = new ProfileImage();
             Glide.with(context)
-                    .load(getProfile.getProfileImage((User) comment.getByUser()))
+                    .load(getProfile.getProfileImage(comment.getByUser()))
                     .into(ivProfileImage);
         }
 

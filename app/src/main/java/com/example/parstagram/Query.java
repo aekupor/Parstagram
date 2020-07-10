@@ -2,23 +2,23 @@ package com.example.parstagram;
 
 import com.example.parstagram.models.Comment;
 import com.example.parstagram.models.Post;
-import com.example.parstagram.models.User;
 import com.parse.FindCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 public class Query {
 
     public static final String TAG = "Query";
     public static final String KEY_FOLLOWERS = "followers";
 
-    public void queryUser(String userId, FindCallback<User> callback) {
-        ParseQuery<User> query = ParseQuery.getQuery(User.class);
+    public void queryUser(String userId, FindCallback<ParseUser> callback) {
+        ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
         query.whereMatches("objectId", userId);
         query.findInBackground(callback);
     }
 
-    public void queryPosts(User user, FindCallback<Post> callback) {
+    public void queryPosts(ParseUser user, FindCallback<Post> callback) {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
         query.whereEqualTo(Post.KEY_USER, user);
@@ -27,8 +27,8 @@ public class Query {
         query.findInBackground(callback);
     }
 
-    public void findFollowers(User user, FindCallback<User> callback) {
-        ParseQuery<User> query = ParseQuery.getQuery("_User");
+    public void findFollowers(ParseUser user, FindCallback<ParseUser> callback) {
+        ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
         query.whereEqualTo(KEY_FOLLOWERS, user);
         query.findInBackground(callback);
     }

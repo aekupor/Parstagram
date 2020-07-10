@@ -18,7 +18,7 @@ import com.bumptech.glide.Glide;
 import com.example.parstagram.ProfileImage;
 import com.example.parstagram.R;
 import com.example.parstagram.fragments.OtherUserProfileFragment;
-import com.example.parstagram.models.User;
+import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -27,9 +27,9 @@ public class FollowerAdapter extends RecyclerView.Adapter<FollowerAdapter.ViewHo
     public static final String TAG = "FollowAdapter";
 
     private Context context;
-    private List<User> users;
+    private List<ParseUser> users;
 
-    public FollowerAdapter(Context context, List<User> users) {
+    public FollowerAdapter(Context context, List<ParseUser> users) {
         this.context = context;
         this.users = users;
     }
@@ -43,7 +43,7 @@ public class FollowerAdapter extends RecyclerView.Adapter<FollowerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        User user = users.get(position);
+        ParseUser user = users.get(position);
         holder.bind(user);
     }
 
@@ -66,7 +66,7 @@ public class FollowerAdapter extends RecyclerView.Adapter<FollowerAdapter.ViewHo
             itemView.setOnClickListener(this);
         }
 
-        public void bind(User user) {
+        public void bind(ParseUser user) {
             tvUsername.setText(user.getUsername());
             ProfileImage getProfile = new ProfileImage();
             Glide.with(context)
@@ -82,7 +82,7 @@ public class FollowerAdapter extends RecyclerView.Adapter<FollowerAdapter.ViewHo
                 // make sure the position is valid, i.e. actually exists in the view
                 if (position != RecyclerView.NO_POSITION) {
                     // get the post at the position
-                    User user = users.get(position);
+                    ParseUser user = users.get(position);
                     Log.i(TAG, "user clicked: " + user.getUsername());
 
                     // go to OtherUserProfileFragment

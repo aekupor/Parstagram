@@ -30,7 +30,6 @@ import com.example.parstagram.Query;
 import com.example.parstagram.R;
 import com.example.parstagram.adapters.PostsAdapter;
 import com.example.parstagram.models.Post;
-import com.example.parstagram.models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -101,7 +100,7 @@ public class ProfileFragment extends Fragment {
 
         ProfileImage getProfile = new ProfileImage();
         Glide.with(getContext())
-                .load(getProfile.getProfileImage((User)ParseUser.getCurrentUser()))
+                .load(getProfile.getProfileImage(ParseUser.getCurrentUser()))
                 .into(ivProfileImage);
 
         allPosts = new ArrayList<>();
@@ -117,7 +116,7 @@ public class ProfileFragment extends Fragment {
     }
 
     protected void queryPosts() {
-        query.queryPosts((User) ParseUser.getCurrentUser(), new FindCallback<Post>() {
+        query.queryPosts(ParseUser.getCurrentUser(), new FindCallback<Post>() {
             @Override
             public void done(List<Post> posts, ParseException e) {
                 if (e != null) {

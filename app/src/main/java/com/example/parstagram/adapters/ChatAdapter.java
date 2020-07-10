@@ -15,7 +15,6 @@ import com.bumptech.glide.Glide;
 import com.example.parstagram.ProfileImage;
 import com.example.parstagram.models.Message;
 import com.example.parstagram.R;
-import com.example.parstagram.models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -67,7 +66,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         if (isMe) {
             ProfileImage getProfile = new ProfileImage();
             Glide.with(mContext)
-                    .load(getProfile.getProfileImage((User) ParseUser.getCurrentUser()))
+                    .load(getProfile.getProfileImage(ParseUser.getCurrentUser()))
                     .into(profileView);
         } else {
             ParseQuery query = ParseUser.getQuery();
@@ -78,7 +77,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                         // The query was successful.
                         ProfileImage getProfile = new ProfileImage();
                         Glide.with(mContext)
-                                .load(getProfile.getProfileImage((User) objects.get(0)))
+                                .load(getProfile.getProfileImage(objects.get(0)))
                                 .into(profileView);
                     } else {
                         Log.e(TAG, "error with finding user profile image");

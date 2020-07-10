@@ -15,10 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.parstagram.Query;
 import com.example.parstagram.R;
 import com.example.parstagram.adapters.FollowerAdapter;
-import com.example.parstagram.models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +29,11 @@ public class FollowersFragment extends Fragment {
     public static final String KEY_FOLLOWERS = "followers";
 
     private String userId;
-    private User user;
+    private ParseUser user;
 
     private RecyclerView rvComments;
     private FollowerAdapter adapter;
-    private List<User> allUsers;
+    private List<ParseUser> allUsers;
     private Query query;
 
     public FollowersFragment() {
@@ -69,7 +69,7 @@ public class FollowersFragment extends Fragment {
         rvComments = view.findViewById(R.id.rvFollowers);
         query = new Query();
 
-        allUsers = new ArrayList<User>();
+        allUsers = new ArrayList<ParseUser>();
         adapter = new FollowerAdapter(getContext(), allUsers);
 
         rvComments.setAdapter(adapter);
@@ -81,9 +81,9 @@ public class FollowersFragment extends Fragment {
 
 
      private void queryUser() {
-        query.queryUser(userId, new FindCallback<User>() {
+        query.queryUser(userId, new FindCallback<ParseUser>() {
             @Override
-            public void done(List<User> users, ParseException e) {
+            public void done(List<ParseUser> users, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Issue with getting user", e);
                     return;
@@ -97,16 +97,16 @@ public class FollowersFragment extends Fragment {
 
     private void findFollowers() {
         //find followers of user
-        ParseQuery<User> query = ParseQuery.getQuery("_User");
+        ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
         query.whereEqualTo(KEY_FOLLOWERS, user);
-        query.findInBackground(new FindCallback<User>() {
+        query.findInBackground(new FindCallback<ParseUser>() {
             @Override
-            public void done(List<User> objects, ParseException e) {
+            public void done(List<ParseUser> objects, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "error getting followers");
                 }
                 Log.i(TAG, "got followers");
-                for (User user : objects) {
+                for (ParseUser user : objects) {
                     Log.i(TAG, "user: " + user.getUsername());
                 }
                 allUsers.addAll(objects);

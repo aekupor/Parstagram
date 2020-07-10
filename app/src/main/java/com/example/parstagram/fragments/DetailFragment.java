@@ -25,7 +25,6 @@ import com.example.parstagram.R;
 import com.example.parstagram.adapters.CommentAdapter;
 import com.example.parstagram.models.Comment;
 import com.example.parstagram.models.Post;
-import com.example.parstagram.models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -201,7 +200,7 @@ public class DetailFragment extends Fragment implements ComposeCommentFragment.C
 
                 ProfileImage getProfile = new ProfileImage();
                 Glide.with(getContext())
-                        .load(getProfile.getProfileImage((User) post.getUser()))
+                        .load(getProfile.getProfileImage((ParseUser) post.getUser()))
                         .into(ivProfileImage);
 
                 queryComments();

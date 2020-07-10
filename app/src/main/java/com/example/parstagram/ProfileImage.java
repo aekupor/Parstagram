@@ -1,12 +1,12 @@
 package com.example.parstagram;
 
-import com.example.parstagram.models.User;
+import com.parse.ParseUser;
 
 import java.io.Serializable;
 
 public class ProfileImage {
 
-    public Serializable getProfileImage(User user) {
+    public Serializable getProfileImage(ParseUser user) {
         if (user.getParseFile("profileImage") != null) {
             return user.getParseFile("profileImage").getUrl();
         } else {

@@ -23,7 +23,6 @@ import com.example.parstagram.Query;
 import com.example.parstagram.models.Post;
 import com.example.parstagram.adapters.PostsAdapter;
 import com.example.parstagram.R;
-import com.example.parstagram.models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -48,7 +47,7 @@ public class OtherUserProfileFragment extends Fragment {
     private ImageView ivProfileImage;
     private String userId;
     private Button btnChat;
-    private User user;
+    private ParseUser user;
     private TextView tvNumFollowers;
     private TextView tvFollowersTitle;
     private Button btnFollow;
@@ -116,7 +115,7 @@ public class OtherUserProfileFragment extends Fragment {
             public void onClick(View view) {
                 Log.i(TAG, "follow button clicked");
 
-                User currentUser = (User) ParseUser.getCurrentUser();
+                ParseUser currentUser = ParseUser.getCurrentUser();
                 ParseRelation<ParseObject> relation = currentUser.getRelation(KEY_FOLLOWERS);
                 if (btnFollow.getText().toString().equals("Follow")) {
                     relation.add(user);
@@ -165,14 +164,14 @@ public class OtherUserProfileFragment extends Fragment {
     }
 
     private void findFollowers() {
-        query.findFollowers(user, new FindCallback<User>() {
+        query.findFollowers(user, new FindCallback<ParseUser>() {
             @Override
-            public void done(List<User> objects, ParseException e) {
+            public void done(List<ParseUser> objects, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "error getting followers");
                 }
                 Log.i(TAG, "got followers");
-                for (User user : objects) {
+                for (ParseUser user : objects) {
                     Log.i(TAG, "user: " + user.getUsername());
                 }
                 tvNumFollowers.setText(String.valueOf(objects.size()));
@@ -181,9 +180,9 @@ public class OtherUserProfileFragment extends Fragment {
     }
 
     private void queryUser() {
-        query.queryUser(userId, new FindCallback<User>() {
+        query.queryUser(userId, new FindCallback<ParseUser>() {
             @Override
-            public void done(List<User> users, ParseException e) {
+            public void done(List<ParseUser> users, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Issue with getting user", e);
                     return;
