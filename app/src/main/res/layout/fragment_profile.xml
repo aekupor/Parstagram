@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -18,24 +18,35 @@
         android:id="@+id/btnChangeProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Change Profile Image" />
+        android:layout_below="@+id/ivProfileImage"
+        android:layout_marginStart="4dp"
+        android:layout_toEndOf="@+id/btnUploadProfileImage"
+        android:text="Take Profile Image" />
 
     <Button
         android:id="@+id/btnUploadProfileImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/ivProfileImage"
+        android:layout_marginTop="0dp"
         android:text="Upload Profile Image" />
 
     <Button
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tvProfileUsername"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_toEndOf="@+id/ivProfileImage"
         android:text="Logout" />
 
     <TextView
         android:id="@+id/tvProfileUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_toEndOf="@+id/ivProfileImage"
         android:textSize="18sp"
         android:textStyle="bold"
         tools:text="ashlee" />
@@ -44,7 +55,8 @@
         android:id="@+id/rvProfilePosts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/btnUploadProfileImage"
         android:padding="8dp" />
 
 
-</LinearLayout>
+</RelativeLayout>

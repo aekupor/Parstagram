@@ -114,6 +114,7 @@ public class ProfileFragment extends Fragment {
         ProfileImage getProfile = new ProfileImage();
         Glide.with(getContext())
                 .load(getProfile.getProfileImage(ParseUser.getCurrentUser()))
+                .circleCrop()
                 .into(ivProfileImage);
 
         allPosts = new ArrayList<>();
