@@ -19,6 +19,13 @@ public class FollowersFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public static FollowersFragment newInstance() {
+        FollowersFragment followersFragment = new FollowersFragment();
+        Bundle args = new Bundle();
+        followersFragment.setArguments(args);
+        return followersFragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

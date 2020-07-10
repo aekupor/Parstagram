@@ -52,6 +52,7 @@ public class OtherUserProfileFragment extends Fragment {
     private User user;
     private TextView tvNumFollowers;
     private TextView tvNumFollowing;
+    private TextView tvFollowersTitle;
     private Button btnFollow;
 
     public OtherUserProfileFragment() {
@@ -89,6 +90,7 @@ public class OtherUserProfileFragment extends Fragment {
         ivProfileImage = view.findViewById(R.id.ivOtherProfileImage);
         btnChat = view.findViewById(R.id.btnChat);
         tvNumFollowers = view.findViewById(R.id.tvNumFollowers);
+        tvFollowersTitle = view.findViewById(R.id.tvFollowersTitle);
         tvNumFollowing = view.findViewById(R.id.tvNumFollowing);
         btnFollow = view.findViewById(R.id.btnFollow);
 
@@ -139,7 +141,29 @@ public class OtherUserProfileFragment extends Fragment {
             }
         });
 
+        tvFollowersTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listFollowers();
+            }
+        });
+
+        tvNumFollowers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listFollowers();
+            }
+        });
+
         queryUser();
+    }
+
+    private void listFollowers() {
+        Log.i(TAG, "list followers clicked");
+        // go to Followers Fragment
+        final FragmentManager fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+        Fragment fragment = FollowersFragment.newInstance();
+        fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
     }
 
     private void findFollowers() {
