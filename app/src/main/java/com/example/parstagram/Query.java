@@ -43,6 +43,14 @@ public class Query {
         query.findInBackground(callback);
     }
 
+    public void queryOnePost(String postId, FindCallback<Post> callback) {
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include(Post.KEY_USER);
+        query.setLimit(1);
+        query.whereEqualTo("objectId", postId);
+        query.findInBackground(callback);
+    }
+
     public void queryComments(String postId, FindCallback<Comment> callback) {
         Integer displayLimit = 20;
 

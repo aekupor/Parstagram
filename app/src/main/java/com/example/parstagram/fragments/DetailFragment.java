@@ -27,7 +27,6 @@ import com.example.parstagram.models.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -172,12 +171,7 @@ public class DetailFragment extends Fragment implements ComposeCommentFragment.C
     }
 
     private void queryPost() {
-        // Specify which class to query
-        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
-        query.include(Post.KEY_USER);
-        query.setLimit(1);
-        query.whereEqualTo("objectId", postId);
-        query.findInBackground(new FindCallback<Post>() {
+        query.queryOnePost(postId, new FindCallback<Post>() {
             @Override
             public void done(List<Post> posts, ParseException e) {
                 if (e != null) {
