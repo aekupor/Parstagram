@@ -36,8 +36,12 @@ The following **stretch** features are implemented:
 The following **additional** features are implemented:
 
 - [x] List anything else that you can get done to improve the app functionality!
-  - Create chat feature
-  - Create follow button and display number of users followers and following
+  - Create chat feature (like Instagram Direct Message)
+  - Create follow button and display number of users followers
+  - Allow users to view list of people following a user
+  - User can click on each person in followers list to be taken to their profile view
+  - User can take photo or upload photo when creating a post or making a profile picture
+  
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
