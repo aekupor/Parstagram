@@ -236,12 +236,7 @@ public class OtherUserProfileFragment extends Fragment {
     }
 
     protected void queryPosts() {
-        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
-        query.include(Post.KEY_USER);
-        query.whereEqualTo(Post.KEY_USER, user);
-        query.setLimit(20);
-        query.addDescendingOrder(Post.KEY_CREATED_AT);
-        query.findInBackground(new FindCallback<Post>() {
+        query.queryPosts(user, new FindCallback<Post>() {
             @Override
             public void done(List<Post> posts, ParseException e) {
                 if (e != null) {
