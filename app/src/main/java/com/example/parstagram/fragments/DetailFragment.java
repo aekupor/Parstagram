@@ -242,6 +242,7 @@ public class DetailFragment extends Fragment implements ComposeCommentFragment.C
                     Toast.makeText(getContext(), "Error while saving!", Toast.LENGTH_SHORT).show();
                 }
                 Log.i(TAG, "Post save was successful!");
+                queryComments();
             }
         });
     }
