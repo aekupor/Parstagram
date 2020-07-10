@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.parstagram.ProfileImage;
 import com.example.parstagram.R;
 import com.example.parstagram.fragments.OtherUserProfileFragment;
 import com.example.parstagram.models.User;
@@ -67,15 +68,10 @@ public class FollowerAdapter extends RecyclerView.Adapter<FollowerAdapter.ViewHo
 
         public void bind(User user) {
             tvUsername.setText(user.getUsername());
-            if (user.getParseFile("profileImage") != null) {
-                Glide.with(context)
-                        .load(user.getParseFile("profileImage").getUrl())
-                        .into(ivProfileImage);
-            } else {
-                Glide.with(context)
-                        .load(R.drawable.ic_baseline_person_outline_24)
-                        .into(ivProfileImage);
-            }
+            ProfileImage getProfile = new ProfileImage();
+            Glide.with(context)
+                    .load(getProfile.getProfileImage(user))
+                    .into(ivProfileImage);
         }
 
         public void onClick(View v) {
