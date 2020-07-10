@@ -182,6 +182,11 @@ public class ProfileFragment extends Fragment {
 
             // Load the selected image into a preview
             ivProfileImage.setImageBitmap(selectedImage);
+
+            //TODO: NOT WORKING
+            ParseFile parseFile = new ParseFile(new File(photoUri.getPath()));
+            ParseUser.getCurrentUser().put("profileImage", parseFile);
+            ParseUser.getCurrentUser().saveInBackground();
         }
     }
 
