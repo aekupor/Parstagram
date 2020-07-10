@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.bumptech.glide.Glide;
+import com.example.parstagram.ProfileImage;
 import com.example.parstagram.Query;
 import com.example.parstagram.models.Comment;
 import com.example.parstagram.models.Post;
@@ -215,15 +216,10 @@ public class OtherUserProfileFragment extends Fragment {
                 Log.i(TAG, "User: " + user.getUsername());
                 tvUsername.setText(user.getUsername());
 
-                if (user.getParseFile("profileImage") != null) {
-                    Glide.with(getContext())
-                            .load(user.getParseFile("profileImage").getUrl())
-                            .into(ivProfileImage);
-                } else {
-                    Glide.with(getContext())
-                            .load(R.drawable.ic_baseline_person_outline_24)
-                            .into(ivProfileImage);
-                }
+                ProfileImage getProfile = new ProfileImage();
+                Glide.with(getContext())
+                        .load(getProfile.getProfileImage(user))
+                        .into(ivProfileImage);
 
                 findFollowing();
                 findFollowers();
