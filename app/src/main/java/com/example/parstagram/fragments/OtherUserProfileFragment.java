@@ -51,6 +51,7 @@ public class OtherUserProfileFragment extends Fragment {
     private TextView tvNumFollowers;
     private TextView tvFollowersTitle;
     private Button btnFollow;
+    private Boolean follow;
 
     public OtherUserProfileFragment() {
         // Required empty public constructor
@@ -91,6 +92,7 @@ public class OtherUserProfileFragment extends Fragment {
         btnFollow = view.findViewById(R.id.btnFollow);
 
         query = new Query();
+        follow = false;
         allPosts = new ArrayList<>();
         adapter = new PostsAdapter(getContext(), allPosts);
 
@@ -117,12 +119,10 @@ public class OtherUserProfileFragment extends Fragment {
 
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 ParseRelation<ParseObject> relation = currentUser.getRelation(KEY_FOLLOWERS);
-                if (btnFollow.getText().toString().equals("Follow")) {
+                if (!follow) {
                     relation.add(user);
-                    btnFollow.setText("Unfollow");
                 } else {
                     relation.remove(user);
-                    btnFollow.setText("Follow");
                 }
 
                 currentUser.saveInBackground(new SaveCallback() {
