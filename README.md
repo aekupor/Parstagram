@@ -52,9 +52,9 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-- [Register and Change Profile Pic] (https://imgur.com/a/D9rtSS4)
+- [Register and Change Profile Pic](https://imgur.com/a/D9rtSS4)
 - [Like, Comment, and Compose](https://imgur.com/a/A2fRruX)
-- [Profile and Chat] (https://imgur.com/a/VPggD89)
+- [Profile and Chat](https://imgur.com/a/VPggD89)
 - [Followers Feature](https://imgur.com/a/vTs7NmJ)
 
 
