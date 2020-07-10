@@ -46,6 +46,7 @@ public class DetailFragment extends Fragment implements ComposeCommentFragment.C
     private Button btnLike;
     private Button btnComment;
     private ImageView ivProfileImage;
+    private Boolean liked;
 
     private RecyclerView rvComments;
     private CommentAdapter adapter;
@@ -92,6 +93,8 @@ public class DetailFragment extends Fragment implements ComposeCommentFragment.C
         rvComments = view.findViewById(R.id.rvComments);
         ivProfileImage = view.findViewById(R.id.ivProfileImageDetail);
 
+        liked = false;
+
         allComments = new ArrayList<>();
         adapter = new CommentAdapter(getContext(), allComments);
 
@@ -103,7 +106,7 @@ public class DetailFragment extends Fragment implements ComposeCommentFragment.C
             @Override
             public void onClick(View view) {
                 Log.i(TAG, "like button clicked");
-                if (btnLike.getText().toString().equals("Like")) {
+                if (!liked) {
                     if (post.getLikes() == null) {
                         tvLikes.setText("1");
                         post.setLikes(1);
@@ -112,12 +115,14 @@ public class DetailFragment extends Fragment implements ComposeCommentFragment.C
                         tvLikes.setText(likes.toString());
                         post.setLikes(likes);
                     }
-                    btnLike.setText("Unlike");
+                    liked = true;
+                    btnLike.setBackgroundResource(R.drawable.ufi_heart_active);
                 } else {
                     Integer likes = post.getLikes() - 1;
                     tvLikes.setText(likes.toString());
                     post.setLikes(likes);
-                    btnLike.setText("Like");
+                    liked = false;
+                    btnLike.setBackgroundResource(R.drawable.ufi_heart);
                 }
                 post.saveInBackground(new SaveCallback() {
                     @Override
