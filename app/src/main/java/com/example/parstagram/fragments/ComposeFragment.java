@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,6 +43,7 @@ public class ComposeFragment extends Fragment {
     private File photoFile;
     public String photoFileName = "photo.jpg";
     private ProgressBar pb;
+    private Camera camera;
 
     public ComposeFragment() {
         //required empty public constructor
@@ -62,6 +62,7 @@ public class ComposeFragment extends Fragment {
         ivPostImage = view.findViewById(R.id.ivPostImage);
         btnSubmit = view.findViewById(R.id.btnSubmit);
         pb = (ProgressBar) view.findViewById(R.id.pbLoading);
+        camera = new Camera();
 
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,10 +90,11 @@ public class ComposeFragment extends Fragment {
     }
 
     protected void launchCamera() {
+
         // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Create a File reference for future access
-        photoFile = getPhotoFileUri(photoFileName);
+        photoFile = camera.getPhotoFileUri(photoFileName, getContext());
 
         // wrap File object into a content provider
         // required for API >= 24
@@ -124,25 +126,9 @@ public class ComposeFragment extends Fragment {
         }
     }
 
-    // Returns the File for a photo stored on disk given the fileName
-    public File getPhotoFileUri(String fileName) {
-        // Get safe storage directory for photos
-        // Use `getExternalFilesDir` on Context to access package-specific directories.
-        // This way, we don't need to request external read/write runtime permissions.
-        File mediaStorageDir = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
-
-        // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
-            Log.d(TAG, "failed to create directory");
-        }
-
-        // Return the file target for the photo based on filename
-        return new File(mediaStorageDir.getPath() + File.separator + fileName);
-    }
 
     private void savePost(String description, ParseUser currentUser, File photoFile) {
         pb.setVisibility(ProgressBar.VISIBLE);
-        Camera camera = new Camera();
         camera.savePost(description, currentUser, photoFile, new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -156,26 +142,5 @@ public class ComposeFragment extends Fragment {
                 pb.setVisibility(ProgressBar.INVISIBLE);
             }
         });
-
-        /*
-        Post post = new Post();
-        post.setDescription(description);
-        post.setImage(new ParseFile(photoFile));
-        post.setUser(currentUser);
-        post.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Error while saving", e);
-                    Toast.makeText(getContext(), "Error while saving!", Toast.LENGTH_SHORT).show();
-                }
-                Log.i(TAG, "Post save was successful!");
-                etDescription.setText("");
-                ivPostImage.setImageResource(0);
-                pb.setVisibility(ProgressBar.INVISIBLE);
-            }
-        });
-
-         */
     }
 }
