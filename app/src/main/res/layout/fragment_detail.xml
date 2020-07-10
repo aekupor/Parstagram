@@ -54,14 +54,14 @@
 
     <Button
         android:id="@+id/btnComment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_below="@+id/tvCreatedAtDetail"
         android:layout_marginStart="4dp"
         android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/btnLike"
         android:layout_weight="1"
-        android:text="Comment" />
+        android:background="@drawable/ufi_comment" />
 
     <TextView
         android:id="@+id/tvLikes"
@@ -75,13 +75,13 @@
 
     <Button
         android:id="@+id/btnLike"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_below="@+id/tvCreatedAtDetail"
         android:layout_marginStart="20dp"
         android:layout_toEndOf="@+id/tvLikesTitle"
         android:layout_weight="1"
-        android:text="Like" />
+        android:background="@drawable/ufi_heart" />
 
     <ImageView
         android:id="@+id/ivImageDetail"

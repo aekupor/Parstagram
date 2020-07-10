@@ -24,7 +24,7 @@ import java.util.List;
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
     public static final String TAG = "ChatAdapter";
-    
+
     private List<Message> mMessages;
     private Context mContext;
     private String mUserId;
