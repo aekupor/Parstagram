@@ -170,10 +170,7 @@ public class OtherUserProfileFragment extends Fragment {
     }
 
     private void findFollowers() {
-        //find followers of user
-        ParseQuery<User> query = ParseQuery.getQuery("_User");
-        query.whereEqualTo(KEY_FOLLOWERS, user);
-        query.findInBackground(new FindCallback<User>() {
+        query.findFollowers(user, new FindCallback<User>() {
             @Override
             public void done(List<User> objects, ParseException e) {
                 if (e != null) {
