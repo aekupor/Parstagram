@@ -76,15 +76,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                 public void done(List<ParseUser> objects, ParseException e) {
                     if (e == null) {
                         // The query was successful.
-                        if (objects.get(0).getParseFile("profileImage") != null) {
-                            Glide.with(mContext)
-                                    .load(objects.get(0).getParseFile("profileImage").getUrl())
-                                    .into(profileView);
-                        } else {
-                            Glide.with(mContext)
-                                    .load(R.drawable.ic_baseline_person_outline_24)
-                                    .into(profileView);
-                        }
+                        ProfileImage getProfile = new ProfileImage();
+                        Glide.with(mContext)
+                                .load(getProfile.getProfileImage((User) objects.get(0)))
+                                .into(profileView);
                     } else {
                         Log.e(TAG, "error with finding user profile image");
                     }
