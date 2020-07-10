@@ -45,16 +45,19 @@ public class ProfileFragment extends Fragment {
 
     public static final String TAG = "ProfileFragment";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
+    public final static int PICK_PHOTO_CODE = 1046;
 
     private RecyclerView rvPosts;
     private PostsAdapter adapter;
     private List<Post> allPosts;
     private Query query;
+    private Camera camera;
 
     private TextView tvUsername;
     private ImageView ivProfileImage;
     private Button btnChangeProfileImage;
     private Button btnLogout;
+    private Button btnUploadProfileImage;
 
     private File photoFile;
     public String photoFileName = "photo.jpg";
@@ -79,13 +82,23 @@ public class ProfileFragment extends Fragment {
         ivProfileImage = view.findViewById(R.id.ivProfileImage);
         btnChangeProfileImage = view.findViewById(R.id.btnChangeProfile);
         btnLogout = view.findViewById(R.id.btnLogout);
+        btnUploadProfileImage = view.findViewById(R.id.btnUploadProfileImage);
         query = new Query();
+        camera = new Camera();
 
         btnChangeProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.i(TAG, "change profile image button clicked");
                 launchCamera();
+            }
+        });
+
+        btnUploadProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(TAG, "change profile image button clicked");
+                onPickPhoto(view);
             }
         });
 
@@ -136,7 +149,6 @@ public class ProfileFragment extends Fragment {
         // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Create a File reference for future access
-        Camera camera = new Camera();
         photoFile = camera.getPhotoFileUri(photoFileName, getContext());
 
         // wrap File object into a content provider
@@ -162,6 +174,28 @@ public class ProfileFragment extends Fragment {
             } else { // Result was a failure
                 Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
+        } else if ((data != null) && requestCode == PICK_PHOTO_CODE) {
+            Uri photoUri = data.getData();
+
+            // Load the image located at photoUri into selectedImage
+            Bitmap selectedImage = camera.loadFromUri(photoUri, getContext());
+
+            // Load the selected image into a preview
+            ivProfileImage.setImageBitmap(selectedImage);
+        }
+    }
+
+    // Trigger gallery selection for a photo
+    public void onPickPhoto(View view) {
+        // Create intent for picking a photo from the gallery
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
+        // So as long as the result is not null, it's safe to use the intent.
+        if (intent.resolveActivity(getContext().getPackageManager()) != null) {
+            // Bring up gallery to select a photo
+            startActivityForResult(intent, PICK_PHOTO_CODE);
         }
     }
 }

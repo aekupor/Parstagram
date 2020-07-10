@@ -21,6 +21,12 @@
         android:text="Change Profile Image" />
 
     <Button
+        android:id="@+id/btnUploadProfileImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload Profile Image" />
+
+    <Button
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
