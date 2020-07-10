@@ -26,6 +26,7 @@ import java.util.List;
 public class FollowersFragment extends Fragment {
 
     public static final String TAG = "FollowersFragment";
+    public static final String KEY_FOLLOWERS = "followers";
 
     private String userId;
     private User user;
@@ -88,6 +89,26 @@ public class FollowersFragment extends Fragment {
                 }
                 user = users.get(0);
                 Log.i(TAG, "User: " + user.getUsername());
+                findFollowers();
+            }
+        });
+    }
+
+    private void findFollowers() {
+        //find followers of user
+        ParseQuery<User> query = ParseQuery.getQuery("_User");
+        query.whereEqualTo(KEY_FOLLOWERS, user);
+        query.findInBackground(new FindCallback<User>() {
+            @Override
+            public void done(List<User> objects, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "error getting followers");
+                }
+                Log.i(TAG, "got followers");
+                for (User user : objects) {
+                    Log.i(TAG, "user: " + user.getUsername());
+                }
+                //notify adapter
             }
         });
     }
