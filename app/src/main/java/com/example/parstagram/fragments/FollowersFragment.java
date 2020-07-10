@@ -13,8 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.parstagram.R;
-import com.example.parstagram.adapters.CommentAdapter;
-import com.example.parstagram.models.Comment;
+import com.example.parstagram.adapters.FollowerAdapter;
 import com.example.parstagram.models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -32,8 +31,8 @@ public class FollowersFragment extends Fragment {
     private User user;
 
     private RecyclerView rvComments;
-    private CommentAdapter adapter;
-    private List<Comment> allComments;
+    private FollowerAdapter adapter;
+    private List<User> allUsers;
 
     public FollowersFragment() {
         // Required empty public constructor
@@ -67,8 +66,8 @@ public class FollowersFragment extends Fragment {
 
         rvComments = view.findViewById(R.id.rvFollowers);
 
-        allComments = new ArrayList<>();
-        adapter = new CommentAdapter(getContext(), allComments);
+        allUsers = new ArrayList<User>();
+        adapter = new FollowerAdapter(getContext(), allUsers);
 
         rvComments.setAdapter(adapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -108,7 +107,8 @@ public class FollowersFragment extends Fragment {
                 for (User user : objects) {
                     Log.i(TAG, "user: " + user.getUsername());
                 }
-                //notify adapter
+                allUsers.addAll(objects);
+                adapter.notifyDataSetChanged();
             }
         });
     }
