@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.bumptech.glide.Glide;
+import com.example.parstagram.Query;
 import com.example.parstagram.models.Comment;
 import com.example.parstagram.models.Post;
 import com.example.parstagram.adapters.PostsAdapter;
@@ -44,6 +45,7 @@ public class OtherUserProfileFragment extends Fragment {
     private RecyclerView rvPosts;
     private PostsAdapter adapter;
     private List<Post> allPosts;
+    private Query query;
 
     private TextView tvUsername;
     private ImageView ivProfileImage;
@@ -94,6 +96,7 @@ public class OtherUserProfileFragment extends Fragment {
         tvNumFollowing = view.findViewById(R.id.tvNumFollowing);
         btnFollow = view.findViewById(R.id.btnFollow);
 
+        query = new Query();
         allPosts = new ArrayList<>();
         adapter = new PostsAdapter(getContext(), allPosts);
 
@@ -204,9 +207,8 @@ public class OtherUserProfileFragment extends Fragment {
     }
 
     private void queryUser() {
-        ParseQuery<User> query = ParseQuery.getQuery(User.class);
-        query.whereMatches("objectId", userId);
-        query.findInBackground(new FindCallback<User>() {
+        query.queryUser(userId, new FindCallback<User>() {
+            @Override
             public void done(List<User> users, ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "Issue with getting user", e);
