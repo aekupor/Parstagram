@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.bumptech.glide.Glide;
 import com.example.parstagram.LoginActivity;
+import com.example.parstagram.ProfileImage;
 import com.example.parstagram.Query;
 import com.example.parstagram.R;
 import com.example.parstagram.adapters.PostsAdapter;
@@ -98,15 +99,10 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        if (ParseUser.getCurrentUser().getParseFile("profileImage") != null) {
-            Glide.with(getContext())
-                    .load(ParseUser.getCurrentUser().getParseFile("profileImage").getUrl())
-                    .into(ivProfileImage);
-        } else {
-            Glide.with(getContext())
-                    .load(R.drawable.ic_baseline_person_outline_24)
-                    .into(ivProfileImage);
-        }
+        ProfileImage getProfile = new ProfileImage();
+        Glide.with(getContext())
+                .load(getProfile.getProfileImage((User)ParseUser.getCurrentUser()))
+                .into(ivProfileImage);
 
         allPosts = new ArrayList<>();
         adapter = new PostsAdapter(getContext(), allPosts);
