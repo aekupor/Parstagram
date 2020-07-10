@@ -1,6 +1,10 @@
 package com.example.parstagram.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,18 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.example.parstagram.EndlessRecyclerViewScrollListener;
-import com.example.parstagram.models.Post;
-import com.example.parstagram.adapters.PostsAdapter;
+import com.example.parstagram.Query;
 import com.example.parstagram.R;
+import com.example.parstagram.adapters.PostsAdapter;
+import com.example.parstagram.models.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +32,7 @@ public class PostsFragment extends Fragment {
     protected PostsAdapter adapter;
     protected List<Post> allPosts;
     private SwipeRefreshLayout swipeContainer;
+    private Query query;
 
     private EndlessRecyclerViewScrollListener scrollListener;
 
@@ -51,6 +51,7 @@ public class PostsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        query = new Query();
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
 
         // Setup refresh listener which triggers new data loading
@@ -95,15 +96,7 @@ public class PostsFragment extends Fragment {
     }
 
     protected void queryPosts(Integer page) {
-        Integer displayLimit = 20;
-
-        // Specify which class to query
-        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
-        query.include(Post.KEY_USER);
-        query.setLimit(displayLimit);
-        query.setSkip(page * displayLimit);
-        query.addDescendingOrder(Post.KEY_CREATED_AT);
-        query.findInBackground(new FindCallback<Post>() {
+        query.queryPostsByPage(page, new FindCallback<Post>() {
             @Override
             public void done(List<Post> posts, ParseException e) {
                 if (e != null) {

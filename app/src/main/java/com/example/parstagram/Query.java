@@ -30,4 +30,14 @@ public class Query {
         query.whereEqualTo(KEY_FOLLOWERS, user);
         query.findInBackground(callback);
     }
+
+    public void queryPostsByPage(Integer page, FindCallback<Post> callback) {
+        Integer displayLimit = 20;
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include(Post.KEY_USER);
+        query.setLimit(displayLimit);
+        query.setSkip(page * displayLimit);
+        query.addDescendingOrder(Post.KEY_CREATED_AT);
+        query.findInBackground(callback);
+    }
 }
