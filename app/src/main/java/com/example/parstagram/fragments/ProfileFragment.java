@@ -25,13 +25,14 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.bumptech.glide.Glide;
 import com.example.parstagram.LoginActivity;
-import com.example.parstagram.models.Post;
-import com.example.parstagram.adapters.PostsAdapter;
+import com.example.parstagram.Query;
 import com.example.parstagram.R;
+import com.example.parstagram.adapters.PostsAdapter;
+import com.example.parstagram.models.Post;
+import com.example.parstagram.models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.io.File;
@@ -48,6 +49,7 @@ public class ProfileFragment extends Fragment {
     private RecyclerView rvPosts;
     private PostsAdapter adapter;
     private List<Post> allPosts;
+    private Query query;
 
     private TextView tvUsername;
     private ImageView ivProfileImage;
@@ -77,6 +79,7 @@ public class ProfileFragment extends Fragment {
         ivProfileImage = view.findViewById(R.id.ivProfileImage);
         btnChangeProfileImage = view.findViewById(R.id.btnChangeProfile);
         btnLogout = view.findViewById(R.id.btnLogout);
+        query = new Query();
 
         btnChangeProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,13 +121,7 @@ public class ProfileFragment extends Fragment {
     }
 
     protected void queryPosts() {
-        // Specify which class to query
-        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
-        query.include(Post.KEY_USER);
-        query.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
-        query.setLimit(20);
-        query.addDescendingOrder(Post.KEY_CREATED_AT);
-        query.findInBackground(new FindCallback<Post>() {
+        query.queryPosts((User) ParseUser.getCurrentUser(), new FindCallback<Post>() {
             @Override
             public void done(List<Post> posts, ParseException e) {
                 if (e != null) {
