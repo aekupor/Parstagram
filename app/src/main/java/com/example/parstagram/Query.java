@@ -1,8 +1,10 @@
 package com.example.parstagram;
 
+import com.example.parstagram.models.Comment;
 import com.example.parstagram.models.Post;
 import com.example.parstagram.models.User;
 import com.parse.FindCallback;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 public class Query {
@@ -38,6 +40,20 @@ public class Query {
         query.setLimit(displayLimit);
         query.setSkip(page * displayLimit);
         query.addDescendingOrder(Post.KEY_CREATED_AT);
+        query.findInBackground(callback);
+    }
+
+    public void queryComments(String postId, FindCallback<Comment> callback) {
+        Integer displayLimit = 20;
+
+        ParseQuery<Comment> query = ParseQuery.getQuery(Comment.class);
+        query.setLimit(displayLimit);
+
+        //since comparing a pointer, need to create pointer to compare to
+        ParseObject obj = ParseObject.createWithoutData("Post", postId);
+        query.whereEqualTo("forPost", obj);
+
+        query.addDescendingOrder(Comment.KEY_CREATED_AT);
         query.findInBackground(callback);
     }
 }

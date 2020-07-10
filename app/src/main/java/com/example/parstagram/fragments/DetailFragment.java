@@ -19,14 +19,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.parstagram.models.Comment;
-import com.example.parstagram.adapters.CommentAdapter;
-import com.example.parstagram.models.Post;
+import com.example.parstagram.Query;
 import com.example.parstagram.R;
+import com.example.parstagram.adapters.CommentAdapter;
+import com.example.parstagram.models.Comment;
+import com.example.parstagram.models.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -47,6 +47,7 @@ public class DetailFragment extends Fragment implements ComposeCommentFragment.C
     private Button btnComment;
     private ImageView ivProfileImage;
     private Boolean liked;
+    private Query query;
 
     private RecyclerView rvComments;
     private CommentAdapter adapter;
@@ -94,6 +95,7 @@ public class DetailFragment extends Fragment implements ComposeCommentFragment.C
         ivProfileImage = view.findViewById(R.id.ivProfileImageDetail);
 
         liked = false;
+        query = new Query();
 
         allComments = new ArrayList<>();
         adapter = new CommentAdapter(getContext(), allComments);
@@ -217,18 +219,7 @@ public class DetailFragment extends Fragment implements ComposeCommentFragment.C
     }
 
     protected void queryComments() {
-        Integer displayLimit = 20;
-
-        // Specify which class to query
-        ParseQuery<Comment> query = ParseQuery.getQuery(Comment.class);
-        query.setLimit(displayLimit);
-
-        //since comparing a pointer, need to create pointer to compare to
-        ParseObject obj = ParseObject.createWithoutData("Post", postId);
-        query.whereEqualTo("forPost", obj);
-
-        query.addDescendingOrder(Comment.KEY_CREATED_AT);
-        query.findInBackground(new FindCallback<Comment>() {
+        query.queryComments(postId, new FindCallback<Comment>() {
             @Override
             public void done(List<Comment> comments, ParseException e) {
                 if (e != null) {
