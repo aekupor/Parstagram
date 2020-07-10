@@ -12,8 +12,10 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.parstagram.ProfileImage;
 import com.example.parstagram.models.Message;
 import com.example.parstagram.R;
+import com.example.parstagram.models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -63,15 +65,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         //set profile image
         final ImageView profileView = isMe ? holder.imageMe : holder.imageOther;
         if (isMe) {
-            if (ParseUser.getCurrentUser().getParseFile("profileImage") != null) {
-                Glide.with(mContext)
-                        .load(ParseUser.getCurrentUser().getParseFile("profileImage").getUrl())
-                        .into(profileView);
-            } else {
-                Glide.with(mContext)
-                        .load(R.drawable.ic_baseline_person_outline_24)
-                        .into(profileView);
-            }
+            ProfileImage getProfile = new ProfileImage();
+            Glide.with(mContext)
+                    .load(getProfile.getProfileImage((User) ParseUser.getCurrentUser()))
+                    .into(profileView);
         } else {
             ParseQuery query = ParseUser.getQuery();
             query.whereEqualTo("objectId", message.getUserId());
