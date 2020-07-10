@@ -1,6 +1,7 @@
 package com.example.parstagram.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,9 @@ import com.parse.ParseUser;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
+
+    public static final String TAG = "ChatAdapter";
+    
     private List<Message> mMessages;
     private Context mContext;
     private String mUserId;
@@ -59,7 +63,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         //set profile image
         final ImageView profileView = isMe ? holder.imageMe : holder.imageOther;
         if (isMe) {
-            Glide.with(mContext).load(ParseUser.getCurrentUser().getParseFile("profileImage").getUrl()).into(profileView);
+            if (ParseUser.getCurrentUser().getParseFile("profileImage") != null) {
+                Glide.with(mContext)
+                        .load(ParseUser.getCurrentUser().getParseFile("profileImage").getUrl())
+                        .into(profileView);
+            } else {
+                Glide.with(mContext)
+                        .load(R.drawable.ic_baseline_person_outline_24)
+                        .into(profileView);
+            }
         } else {
             ParseQuery query = ParseUser.getQuery();
             query.whereEqualTo("objectId", message.getUserId());
@@ -67,10 +79,17 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                 public void done(List<ParseUser> objects, ParseException e) {
                     if (e == null) {
                         // The query was successful.
-                        String image = objects.get(0).getParseFile("profileImage").getUrl();
-                        Glide.with(mContext).load(image).into(profileView);
+                        if (objects.get(0).getParseFile("profileImage") != null) {
+                            Glide.with(mContext)
+                                    .load(objects.get(0).getParseFile("profileImage").getUrl())
+                                    .into(profileView);
+                        } else {
+                            Glide.with(mContext)
+                                    .load(R.drawable.ic_baseline_person_outline_24)
+                                    .into(profileView);
+                        }
                     } else {
-                        // Something went wrong.
+                        Log.e(TAG, "error with finding user profile image");
                     }
                 }
             });
