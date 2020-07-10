@@ -183,8 +183,8 @@ public class ProfileFragment extends Fragment {
             // Load the selected image into a preview
             ivProfileImage.setImageBitmap(selectedImage);
 
-            //TODO: NOT WORKING
-            ParseFile parseFile = new ParseFile(new File(photoUri.getPath()));
+            File f = camera.createFile(getContext(), selectedImage);
+            ParseFile parseFile = new ParseFile(f);
             ParseUser.getCurrentUser().put("profileImage", parseFile);
             ParseUser.getCurrentUser().saveInBackground();
         }
