@@ -9,8 +9,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.parstagram.R;
+import com.example.parstagram.adapters.CommentAdapter;
+import com.example.parstagram.models.Comment;
 import com.example.parstagram.models.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -24,6 +27,10 @@ public class FollowersFragment extends Fragment {
 
     private String userId;
     private User user;
+
+    private RecyclerView rvComments;
+    private CommentAdapter adapter;
+    private List<Comment> allComments;
 
     public FollowersFragment() {
         // Required empty public constructor
