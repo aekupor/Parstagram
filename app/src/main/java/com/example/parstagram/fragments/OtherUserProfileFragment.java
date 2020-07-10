@@ -54,7 +54,6 @@ public class OtherUserProfileFragment extends Fragment {
     private Button btnChat;
     private User user;
     private TextView tvNumFollowers;
-    private TextView tvNumFollowing;
     private TextView tvFollowersTitle;
     private Button btnFollow;
 
@@ -94,7 +93,6 @@ public class OtherUserProfileFragment extends Fragment {
         btnChat = view.findViewById(R.id.btnChat);
         tvNumFollowers = view.findViewById(R.id.tvNumFollowers);
         tvFollowersTitle = view.findViewById(R.id.tvFollowersTitle);
-        tvNumFollowing = view.findViewById(R.id.tvNumFollowing);
         btnFollow = view.findViewById(R.id.btnFollow);
 
         query = new Query();
@@ -186,24 +184,6 @@ public class OtherUserProfileFragment extends Fragment {
         });
     }
 
-    private void findFollowing() {
-        //TODO: this isn't actually finding num of following, it is finding total num of users
-        ParseQuery<User> query = ParseQuery.getQuery("_User");
-        query.findInBackground(new FindCallback<User>() {
-            @Override
-            public void done(List<User> objects, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "error getting following");
-                }
-                Log.i(TAG, "got following");
-                for (User user : objects) {
-                    Log.i(TAG, "FOLLOWING: " + user.getUsername());
-                }
-                tvNumFollowing.setText(String.valueOf(objects.size()));
-            }
-        });
-    }
-
     private void queryUser() {
         query.queryUser(userId, new FindCallback<User>() {
             @Override
@@ -221,7 +201,6 @@ public class OtherUserProfileFragment extends Fragment {
                         .load(getProfile.getProfileImage(user))
                         .into(ivProfileImage);
 
-                findFollowing();
                 findFollowers();
                 queryPosts();
             }

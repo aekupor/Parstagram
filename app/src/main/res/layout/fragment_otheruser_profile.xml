@@ -63,25 +63,5 @@
         android:layout_toEndOf="@+id/tvNumFollowers"
         android:text="Followers" />
 
-    <TextView
-        android:id="@+id/tvNumFollowing"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvOtherProfileUsername"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="0dp"
-        android:layout_toEndOf="@+id/tvFollowersTitle"
-        tools:text="22" />
-
-    <TextView
-        android:id="@+id/tvFollowingTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvOtherProfileUsername"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="0dp"
-        android:layout_toEndOf="@+id/tvNumFollowing"
-        android:text="Following" />
-
 
 </RelativeLayout>
