@@ -34,6 +34,8 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 public class DetailFragment extends Fragment implements ComposeCommentFragment.ComposeCommentDialogListener {
 
     public static final String TAG = "DetailFragment";
@@ -195,12 +197,14 @@ public class DetailFragment extends Fragment implements ComposeCommentFragment.C
                 if (image != null) {
                     Glide.with(getContext())
                             .load(post.getImage().getUrl())
+                            .transform(new RoundedCornersTransformation(30, 10))
                             .into(ivImage);
                 }
 
                 ProfileImage getProfile = new ProfileImage();
                 Glide.with(getContext())
-                        .load(getProfile.getProfileImage((ParseUser) post.getUser()))
+                        .load(getProfile.getProfileImage(post.getUser()))
+                        .circleCrop()
                         .into(ivProfileImage);
 
                 queryComments();

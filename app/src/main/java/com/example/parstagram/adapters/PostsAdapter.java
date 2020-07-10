@@ -91,13 +91,14 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             if (image != null) {
                 Glide.with(context)
                         .load(post.getImage().getUrl())
+                        .transform(new RoundedCornersTransformation(30, 10))
                         .into(ivImage);
             }
 
             ProfileImage getProfile = new ProfileImage();
             Glide.with(context)
                     .load(getProfile.getProfileImage(post.getUser()))
-                    .transform(new RoundedCornersTransformation(30, 10))
+                    .circleCrop()
                     .into(ivProfileImage);
         }
 

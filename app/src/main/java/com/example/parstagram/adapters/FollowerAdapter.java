@@ -71,6 +71,7 @@ public class FollowerAdapter extends RecyclerView.Adapter<FollowerAdapter.ViewHo
             ProfileImage getProfile = new ProfileImage();
             Glide.with(context)
                     .load(getProfile.getProfileImage(user))
+                    .circleCrop()
                     .into(ivProfileImage);
         }
 

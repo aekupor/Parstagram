@@ -94,6 +94,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             ProfileImage getProfile = new ProfileImage();
             Glide.with(context)
                     .load(getProfile.getProfileImage(comment.getByUser()))
+                    .circleCrop()
                     .into(ivProfileImage);
         }
 
