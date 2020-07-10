@@ -118,7 +118,13 @@ public class OtherUserProfileFragment extends Fragment {
 
                 User currentUser = (User) ParseUser.getCurrentUser();
                 ParseRelation<ParseObject> relation = currentUser.getRelation(KEY_FOLLOWERS);
-                relation.add(user);
+                if (btnFollow.getText().toString().equals("Follow")) {
+                    relation.add(user);
+                    btnFollow.setText("Unfollow");
+                } else {
+                    relation.remove(user);
+                    btnFollow.setText("Follow");
+                }
 
                 currentUser.saveInBackground(new SaveCallback() {
                     @Override
