@@ -56,7 +56,7 @@ Here's a walkthrough of implemented user stories:
 - [Like, Comment, and Compose](https://imgur.com/a/A2fRruX)
 - [Profile and Chat](https://imgur.com/a/VPggD89)
 - [Followers Feature](https://imgur.com/a/vTs7NmJ)
-
+- [Login, Logout, and Persistance](https://imgur.com/a/VUm6IUs)
 
 ## Credits
 
